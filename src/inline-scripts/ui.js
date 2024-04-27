@@ -45,10 +45,10 @@
 
   /**
    * Updates the UI with the current file name.
-   * @param {FileHandle|string} fileHandle Filename to display in header.
+   * @param {FileSystemFileHandle|string} fileHandle Filename to display in header.
    */
   app.setFile = (fileHandle) => {
-    if (fileHandle && fileHandle.name) {
+    if (typeof fileHandle !== "string" && "name" in fileHandle) {
       app.file.handle = fileHandle;
       app.file.name = fileHandle.name;
       document.title = `${fileHandle.name} - ${app.appName}`;

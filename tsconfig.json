@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "module": "None",
+    "target": "ESNext",
+    // "isolatedModules": true,
+    "types": [
+      "google.analytics",
+      "new-javascript/wicg/file-system-access",
+      "new-javascript/wicg/manifest-incubations",
+      "wicg-file-system-access"
+    ],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": false, // temp
+    "useUnknownInCatchVariables": false, // temp
+    "noImplicitOverride": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "noUncheckedIndexedAccess": true,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

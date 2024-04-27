@@ -17,12 +17,12 @@
 'use strict';
 
 (function(app) {
-  const butInstall = document.getElementById('butInstall');
+  const butInstall = /** @type {HTMLButtonElement} */ (document.getElementById('butInstall'));
 
   /**
    * Track successful app installs
    */
-  window.addEventListener('appinstalled', (e) => {
+  window.addEventListener('appinstalled', () => {
     gaEvent('Install', 'installed');
   });
 
@@ -47,7 +47,7 @@
 
   // Handle the install button click
   butInstall.addEventListener('click', () => {
-    butInstall.setAttribute('disabled', true);
+    butInstall.setAttribute('disabled', String(true));
     app.installPrompt.prompt();
     gaEvent('Install', 'clicked');
   });

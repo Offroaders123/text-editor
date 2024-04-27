@@ -17,8 +17,8 @@
 'use strict';
 
 (function(app) {
-  const filePicker = document.getElementById('filePicker');
-  const aDownloadFile = document.getElementById('aDownloadFile');
+  const filePicker = /** @type {HTMLInputElement} */ (document.getElementById('filePicker'));
+  const aDownloadFile = /** @type {HTMLAnchorElement} */ (document.getElementById('aDownloadFile'));
 
   /**
    * Uses the <input type="file"> to open a new file
@@ -27,7 +27,7 @@
    */
   app.getFileLegacy = () => {
     return new Promise((resolve, reject) => {
-      filePicker.onchange = (e) => {
+      filePicker.onchange = () => {
         const file = filePicker.files[0];
         if (file) {
           resolve(file);

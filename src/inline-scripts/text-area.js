@@ -17,7 +17,7 @@
 'use strict';
 
 (function(app) {
-  const textArea = document.getElementById('textEditor');
+  const textArea = /** @type {HTMLTextAreaElement} */ (document.getElementById('textEditor'));
 
   /* Setup the main textarea */
   textArea.addEventListener('input', () => {

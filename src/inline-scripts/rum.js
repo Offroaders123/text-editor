@@ -33,6 +33,7 @@ function gaEvent(category, action, label, value, nonInteraction) {
   if (location.hostname === 'localhost') {
     return;
   }
+  /** @type {{ eventCategory: string; eventAction: string; eventLabel?: string; eventValue?: number; nonInteraction?: boolean; }} */
   const obj = {
     eventCategory: category,
     eventAction: action,
@@ -55,11 +56,11 @@ function gaEvent(category, action, label, value, nonInteraction) {
  * Logs an timing event to Google Analytics.
  * @param {string} category - Category of timer.
  * @param {string} variable - The variable being timed.
- * @param {integer} value - A numeric value associated with the event.
+ * @param {number} value - A numeric value associated with the event.
  * @param {string} [label] - Useful for categorizing events.
  */
 function gaTiming(category, variable, value, label) {
-  value = parseInt(value, 10);
+  value = parseInt(String(value), 10);
   // eslint-disable-next-line no-console
   console.log('⏱️', category, variable, value, label);
   if (location.hostname === 'localhost') {
@@ -130,7 +131,7 @@ window.addEventListener('load', () => {
 /**
  * Log page visibility.
  */
-document.addEventListener('visibilitychange', (e) => {
+document.addEventListener('visibilitychange', () => {
   const state = document.hidden === true ? 'hidden' : 'visible';
   gaEvent('Page Visibility', state, null, null, true);
 });

@@ -23,6 +23,7 @@
   const menuRecent = document.getElementById('menuRecent');
   myMenus.setup(menuRecent);
 
+  /** @type {FileSystemFileHandle[]} */
   let recentFiles = [];
 
   /**
@@ -74,7 +75,7 @@
     // Loop through the list of recent files and add a button for each.
     recentFiles.forEach((recent) => {
       const butt = myMenus.createButton(recent.name);
-      butt.addEventListener('click', (e) => {
+      butt.addEventListener('click', () => {
         myMenus.hide(menuRecent);
         app.openFile(recent);
       });

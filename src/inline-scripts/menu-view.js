@@ -55,7 +55,7 @@
    */
   app.toggleWordWrap = () => {
     const newVal = document.body.classList.toggle('wordwrap');
-    butWordWrap.setAttribute('aria-checked', newVal);
+    butWordWrap.setAttribute('aria-checked', String(newVal));
     app.options.wordWrap = newVal;
     gaEvent('Options', 'Word Wrap', newVal ? 'true' : 'false');
   };
@@ -65,7 +65,7 @@
    */
   app.toggleMonospace = () => {
     const newVal = document.body.classList.toggle('monospace');
-    butMonospace.setAttribute('aria-checked', newVal);
+    butMonospace.setAttribute('aria-checked', String(newVal));
     app.options.monoSpace = newVal;
     gaEvent('Options', 'Font Face', newVal ? 'monospace' : 'normal');
   };
@@ -76,8 +76,8 @@
   app.toggleCaptureTabs = () => {
     const newVal = !app.options.captureTabs;
     app.options.captureTabs = newVal;
-    butCaptureTabs.setAttribute('aria-checked', newVal);
+    butCaptureTabs.setAttribute('aria-checked', String(newVal));
     lblTabMovesFocus.classList.toggle('hidden', newVal);
-    gaEvent('Options', 'Capture Tabs', newVal);
+    gaEvent('Options', 'Capture Tabs', String(newVal));
   };
 })(app);

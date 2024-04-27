@@ -22,10 +22,10 @@ const myMenus = {};
 /**
  * Initializes a drop down menu.
  *
- * @param {Element} container Container element with the drop down menu.
+ * @param {HTMLElement} container Container element with the drop down menu.
  */
 myMenus.setup = (container) => {
-  const toggleButton = container.querySelector('button.menuTop');
+  const toggleButton = /** @type {HTMLButtonElement} */ (container.querySelector('button.menuTop'));
   toggleButton.addEventListener('click', () => {
     myMenus._toggle(toggleButton);
   });
@@ -37,14 +37,14 @@ myMenus.setup = (container) => {
       return;
     }
     if (e.keyCode === 40) {
-      const next = e.srcElement.nextElementSibling;
+      const next = /** @type {HTMLElement} */ (/** @type {Element} */ (e.srcElement).nextElementSibling);
       if (next) {
         next.focus();
       }
       return;
     }
     if (e.keyCode === 38) {
-      const prev = e.srcElement.previousElementSibling;
+      const prev = /** @type {HTMLElement} */ (/** @type {Element} */ (e.srcElement).previousElementSibling);
       if (prev) {
         prev.focus();
       }
@@ -56,13 +56,14 @@ myMenus.setup = (container) => {
 /**
  * Initializes a drop down menu.
  *
- * @param {Element} button Toggle button to show/hide menu.
+ * @param {HTMLButtonElement} button Toggle button to show/hide menu.
  */
 myMenus.addKeyboardShortcut = (button) => {
   if (app.isMac) {
     // Keyboard shortcuts aren't available on mac.
     return;
   }
+  /** @type {string} */
   let key;
   try {
     key = button.querySelector('.kbdShortcut').textContent.trim().toLowerCase();
@@ -97,7 +98,7 @@ myMenus.hideAll = () => {
  */
 myMenus.hide = (menuContainer) => {
   const button = menuContainer.querySelector('.menuTop');
-  button.setAttribute('aria-expanded', false);
+  button.setAttribute('aria-expanded', String(false));
   const panel = menuContainer.querySelector('.menuItemContainer');
   if (panel) {
     panel.classList.toggle('hidden', true);
@@ -112,7 +113,7 @@ myMenus.hide = (menuContainer) => {
 myMenus.show = (menuContainer) => {
   myMenus.hideAll();
   const button = menuContainer.querySelector('.menuTop');
-  button.setAttribute('aria-expanded', true);
+  button.setAttribute('aria-expanded', String(true));
   const panel = menuContainer.querySelector('.menuItemContainer');
   panel.classList.toggle('hidden', false);
   const firstButton = panel.querySelector('button');
@@ -128,7 +129,7 @@ myMenus.show = (menuContainer) => {
  * Creates a new menu item button.
  *
  * @param {string} label Label for button
- * @return {Button} Returns an HTML button.
+ * @return {HTMLButtonElement} Returns an HTML button.
  */
 myMenus.createButton = (label) => {
   const butt = document.createElement('button');

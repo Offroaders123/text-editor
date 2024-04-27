@@ -30,7 +30,7 @@ function getFileHandle() {
     return window.showOpenFilePicker().then((handles) => handles[0]);
   }
   // For Chrome 85 and earlier...
-  return window.chooseFileSystemEntries();
+  return /** @type {window} */ (window).chooseFileSystemEntries();
 }
 
 /**
@@ -41,6 +41,7 @@ function getFileHandle() {
 function getNewFileHandle() {
   // For Chrome 86 and later...
   if ('showSaveFilePicker' in window) {
+    /** @type {SaveFilePickerOptions} */
     const opts = {
       types: [{
         description: 'Text file',
@@ -50,6 +51,7 @@ function getNewFileHandle() {
     return window.showSaveFilePicker(opts);
   }
   // For Chrome 85 and earlier...
+  /** @type {ChooseFileSystemEntriesFileOptions & { type: "save-file"; }} */
   const opts = {
     type: 'save-file',
     accepts: [{
@@ -58,7 +60,7 @@ function getNewFileHandle() {
       mimeTypes: ['text/plain'],
     }],
   };
-  return window.chooseFileSystemEntries(opts);
+  return /** @type {window} */ (window).chooseFileSystemEntries(opts);
 }
 
 /**
@@ -87,7 +89,8 @@ function _readFileLegacy(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
-      const text = e.srcElement.result;
+      /** @type {string} */
+      const text = /** @type {string} */ (/** @type {FileReader} */ (e.srcElement).result);
       resolve(text);
     });
     reader.readAsText(file);
@@ -102,8 +105,10 @@ function _readFileLegacy(file) {
  */
 async function writeFile(fileHandle, contents) {
   // Support for Chrome 82 and earlier.
+  // @ts-expect-error - legacy support
   if (fileHandle.createWriter) {
     // Create a writer (request permission if necessary).
+    // @ts-expect-error
     const writer = await fileHandle.createWriter();
     // Write the full length of the contents
     await writer.write(0, contents);
@@ -126,9 +131,10 @@ async function writeFile(fileHandle, contents) {
  *
  * @param {FileSystemFileHandle} fileHandle File handle to check.
  * @param {boolean} withWrite True if write permission should be checked.
- * @return {boolean} True if the user has granted read/write permission.
+ * @return {Promise<boolean>} True if the user has granted read/write permission.
  */
 async function verifyPermission(fileHandle, withWrite) {
+  /** @type {FileSystemHandlePermissionDescriptor} */
   const opts = {};
   if (withWrite) {
     opts.writable = true;

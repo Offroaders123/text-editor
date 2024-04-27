@@ -13,6 +13,8 @@
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.2",
+    "@types/google.analytics": "^0.0.46",
+    "@types/wicg-file-system-access": "^2023.10.5",
     "babel-eslint": "^10.0.2",
     "del": "^5.0.0",
     "eslint": "^6.0.1",
@@ -29,7 +31,9 @@
     "gulp-inline-source": "^4.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-terser": "^1.2.0",
+    "new-javascript": "^0.4.3",
     "semver": "^6.2.0",
+    "typescript": "^5.4.5",
     "workbox-build": "^4.3.1"
   },
   "eslintIgnore": [

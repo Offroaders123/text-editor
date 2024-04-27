@@ -20,7 +20,7 @@
            writeFile */
 
 // eslint-disable-next-line no-redeclare
-const app = {
+const app = /** @type {App} */ ({
   appName: 'Text Editor',
   file: {
     handle: null,
@@ -36,7 +36,7 @@ const app = {
   hasFSAccess: 'chooseFileSystemEntries' in window ||
                'showOpenFilePicker' in window,
   isMac: navigator.userAgent.includes('Mac OS X'),
-};
+});
 
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasFSAccess) {
@@ -66,7 +66,7 @@ app.newFile = () => {
 /**
  * Opens a file for reading.
  *
- * @param {FileSystemFileHandle} fileHandle File handle to read from.
+ * @param {FileSystemFileHandle} [fileHandle] File handle to read from.
  */
 app.openFile = async (fileHandle) => {
   if (!app.confirmDiscard()) {
@@ -116,8 +116,8 @@ app.openFile = async (fileHandle) => {
 /**
  * Read the file from disk.
  *
- *  @param {File} file File to read from.
- *  @param {FileSystemFileHandle} fileHandle File handle to read from.
+ *  @param {File} [file] File to read from.
+ *  @param {FileSystemFileHandle} [fileHandle] File handle to read from.
  */
 app.readFile = async (file, fileHandle) => {
   try {
@@ -127,7 +127,7 @@ app.readFile = async (file, fileHandle) => {
     app.setFocus(true);
   } catch (ex) {
     gaEvent('Error', 'FileRead', ex.name);
-    const msg = `An error occured reading ${app.fileName}`;
+    const msg = `An error occured reading ${app.file.name}`;
     console.error(msg, ex);
     alert(msg);
   }
