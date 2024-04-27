@@ -6,7 +6,6 @@ docs/
 .firebase/
 
 .DS_Store
-package-lock.json
 
 .log
 .tmp
