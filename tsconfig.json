@@ -2,9 +2,10 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "module": "None",
+    "module": "NodeNext",
     "target": "ESNext",
     // "isolatedModules": true,
+    "resolveJsonModule": true,
     "types": [
       "google.analytics",
       "new-javascript/wicg/file-system-access",
@@ -22,5 +23,11 @@
     "allowUnreachableCode": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true
-  }
+  },
+  "include": [
+    "./**/*",
+    "./node_modules/gulp-eslint/**/*",
+    "./node_modules/gulp-inline-source/**/*",
+    "./node_modules/workbox-build/**/*"
+  ]
 }

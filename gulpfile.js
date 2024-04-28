@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * Copyright 2019 Google LLC
  *
@@ -36,6 +34,7 @@ const workbox = require('workbox-build');
 const {series, parallel} = require('gulp');
 const inlinesource = require('gulp-inline-source');
 
+/** @type {string} */
 let _appVersion;
 
 const SRC_DIR = 'src';
@@ -60,8 +59,8 @@ const TERSER_OPTS = {
 /**
  * Bumps the version number in the package.json file.
  *
- * @param {string} release - Type of release patch|minor|major.
- * @return {Promise}.
+ * @param {"patch" | "minor" | "major"} release - Type of release patch|minor|major.
+ * @return {Promise<void>}.
  */
 function bumpVersion(release) {
   release = release || 'patch';
@@ -198,7 +197,7 @@ function buildHTML() {
     removeComments: true,
   };
   const buildDate = new Date().toISOString();
-  const packageJSON = fs.readJsonSync('package.json');
+  const packageJSON = /** @type {import("./package.json")} */ (fs.readJsonSync('package.json'));
   _appVersion = packageJSON.version;
   return gulp.src(`${TEMP_DIR}/index.html`)
       .pipe(inlinesource(inlineOpts))
@@ -260,7 +259,11 @@ exports.serveProd = serveProd;
  * Deploy
  *****************************************************************************/
 
+/**
+ * @param {() => void} cb
+ */
 function deployToGHPages(cb) {
+  /** @type {{ message: string; tag?: string; }} */
   const opts = {
     message: 'Auto-generated deploy commit.',
   };
