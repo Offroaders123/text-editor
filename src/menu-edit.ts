@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-(function(app) {
   const menuEdit = document.getElementById('menuEdit');
   myMenus.setup(menuEdit);
 
@@ -49,4 +46,3 @@ import { gaEvent } from "./rum.js";
       gaEvent('Error', 'Paste', ex.name);
     }
   });
-})(app);

@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 
-(function(app) {
   const filePicker = document.getElementById('filePicker') as HTMLInputElement;
   const aDownloadFile = document.getElementById('aDownloadFile') as HTMLAnchorElement;
 
@@ -57,4 +54,3 @@ import { app } from "./app.js";
     aDownloadFile.setAttribute('download', filename);
     aDownloadFile.click();
   };
-})(app);

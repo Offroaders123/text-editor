@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-(function(app) {
   const butInstall = document.getElementById('butInstall') as HTMLButtonElement;
 
   /**
@@ -57,4 +54,3 @@ import { gaEvent } from "./rum.js";
   });
 
   myMenus.addKeyboardShortcut(butInstall);
-})(app);

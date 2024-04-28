@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator && window.isSecureContext && !import.meta.env.DEV) {
     navigator.serviceWorker

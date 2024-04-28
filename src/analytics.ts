@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 /**
  * Google Analytics are disable for the demo.
  * To enable, uncomment the two sections marked "Enable Google Analytics Here.",

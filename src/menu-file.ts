@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 
-(function(app) {
   const menuFile = document.getElementById('menuFile');
   myMenus.setup(menuFile);
 
@@ -47,4 +44,3 @@ import { myMenus } from "./menus.js";
     myMenus.hide(menuFile);
     app.quitApp();
   });
-})(app);

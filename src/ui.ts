@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 
-(function(app) {
   const spanAppName = document.getElementById('headerAppName');
   const spanFileName = document.getElementById('headerFileName');
   const modifiedHeader = document.getElementById('modifiedHeader');
@@ -80,4 +77,3 @@ import { app } from "./app.js";
     modifiedHeader.classList.toggle('hidden', hidden);
     modifiedFooter.classList.toggle('hidden', hidden);
   };
-})(app);

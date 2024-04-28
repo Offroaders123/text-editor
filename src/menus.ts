@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 
 // eslint-disable-next-line no-redeclare

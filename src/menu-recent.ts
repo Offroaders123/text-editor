@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
-import { idbKeyval } from "./idb-keyval-iife.js";
+import { set, clear, get } from "./idb-keyval-iife.js";
 import { myMenus } from "./menus.js";
 
 /* global idbKeyval */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
-(function(app) {
   const menuRecent = document.getElementById('menuRecent');
   myMenus.setup(menuRecent);
 
@@ -60,7 +57,7 @@ import { myMenus } from "./menus.js";
     refreshRecents();
 
     // Save the list of recent files.
-    idbKeyval.set('recentFiles', recentFiles);
+    set('recentFiles', recentFiles);
   };
 
   /**
@@ -97,7 +94,7 @@ import { myMenus } from "./menus.js";
     clearButt.addEventListener('click', () => {
       myMenus.clearMenu(menuRecent);
       recentFiles = [];
-      idbKeyval.clear();
+      clear();
       app.setFocus();
     });
     myMenus.addElement(menuRecent, clearButt);
@@ -107,9 +104,8 @@ import { myMenus } from "./menus.js";
    * Initializes the recents menu.
    */
   async function init(): Promise<void> {
-    recentFiles = await idbKeyval.get('recentFiles') || [];
+    recentFiles = await get('recentFiles') || [];
     refreshRecents();
   }
 
   init();
-})(app);

@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-(function(app) {
   const textArea = document.getElementById('textEditor') as HTMLTextAreaElement;
 
   /* Setup the main textarea */
@@ -113,4 +110,3 @@ import { gaEvent } from "./rum.js";
     }
     textArea.focus();
   };
-})(app);

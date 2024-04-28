@@ -1,10 +1,7 @@
 /* From https://github.com/jakearchibald/idb-keyval */
 /* Retreived 2020-04-10 */
 
-export var idbKeyval = (function () {
-  'use strict';
-
-  class Store {
+  export class Store {
       storeName: string;
       private _dbp: Promise<IDBDatabase>;
 
@@ -35,28 +32,28 @@ export var idbKeyval = (function () {
           store = new Store();
       return store;
   }
-  function get<T>(key: IDBValidKey, store: Store = getDefaultStore()): Promise<T> {
+  export function get<T>(key: IDBValidKey, store: Store = getDefaultStore()): Promise<T> {
       let req: IDBRequest<T>;
       return store._withIDBStore('readonly', store => {
           req = store.get(key);
       }).then(() => req.result);
   }
-  function set<T>(key: IDBValidKey, value: T, store = getDefaultStore()): Promise<void> {
+  export function set<T>(key: IDBValidKey, value: T, store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.put(value, key);
       });
   }
-  function del(key: IDBValidKey, store = getDefaultStore()): Promise<void> {
+  export function del(key: IDBValidKey, store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.delete(key);
       });
   }
-  function clear(store: Store = getDefaultStore()): Promise<void> {
+  export function clear(store: Store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.clear();
       });
   }
-  function keys(store: Store = getDefaultStore()): Promise<IDBValidKey[]> {
+  export function keys(store: Store = getDefaultStore()): Promise<IDBValidKey[]> {
       const keys: IDBValidKey[] = [];
       return store._withIDBStore('readonly', store => {
           // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
@@ -69,23 +66,3 @@ export var idbKeyval = (function () {
           };
       }).then(() => keys);
   }
-
-  return {
-    Store,
-    get,
-    set,
-    del,
-    clear,
-    keys
-  };
-
-//   exports.Store = Store;
-//   exports.get = get;
-//   exports.set = set;
-//   exports.del = del;
-//   exports.clear = clear;
-//   exports.keys = keys;
-
-//   return exports;
-
-  }());

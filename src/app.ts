@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent } from "./rum.js";
 

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 /* eslint-disable no-redeclare */
 /* exported gaEvent, gaTiming, */
 

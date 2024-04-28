@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 declare var self: ServiceWorkerGlobalScope;
 
 self.addEventListener('install', function() {
@@ -32,3 +30,5 @@ self.addEventListener('activate', function() {
 
 self.addEventListener('fetch', function() {
 });
+
+export {};
