@@ -2,10 +2,10 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "module": "NodeNext",
+    "module": "None",
     "target": "ESNext",
     // "isolatedModules": true,
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     "types": [
       "google.analytics",
       "new-javascript/wicg/file-system-access",
@@ -24,10 +24,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": [
-    "./**/*",
-    "./node_modules/gulp-eslint/**/*",
-    "./node_modules/gulp-inline-source/**/*",
-    "./node_modules/workbox-build/**/*"
-  ]
+  // "include": [
+  //   "./**/*",
+  //   "./node_modules/gulp-eslint/**/*",
+  //   "./node_modules/gulp-inline-source/**/*",
+  //   "./node_modules/workbox-build/**/*"
+  // ]
 }
