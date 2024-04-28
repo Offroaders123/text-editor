@@ -79,11 +79,11 @@ export const app = {
 
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasFSAccess) {
-  document.getElementById('not-supported').classList.add('hidden');
+  document.getElementById('not-supported')!.classList.add('hidden');
   gaEvent('File System APIs', 'FSAccess');
 } else {
-  document.getElementById('lblLegacyFS').classList.toggle('hidden', false);
-  document.getElementById('butSave').classList.toggle('hidden', true);
+  document.getElementById('lblLegacyFS')!.classList.toggle('hidden', false);
+  document.getElementById('butSave')!.classList.toggle('hidden', true);
   gaEvent('File System APIs', 'Legacy');
 }
 
@@ -134,7 +134,7 @@ app.openFile = async (fileHandle?: FileSystemFileHandle): Promise<void> => {
     gaEvent('FileAction', 'Open', 'FSAccess');
     try {
       fileHandle = await getFileHandle();
-    } catch (ex) {
+    } catch (ex: any) {
       if (ex.name === 'AbortError') {
         return;
       }
@@ -158,13 +158,13 @@ app.openFile = async (fileHandle?: FileSystemFileHandle): Promise<void> => {
  *  @param file File to read from.
  *  @param fileHandle File handle to read from.
  */
-app.readFile = async (file?: File, fileHandle?: FileSystemFileHandle): Promise<void> => {
+app.readFile = async (file: File, fileHandle?: FileSystemFileHandle): Promise<void> => {
   try {
     app.setText(await readFile(file));
     app.setFile(fileHandle || file.name);
     app.setModified(false);
     app.setFocus(true);
-  } catch (ex) {
+  } catch (ex: any) {
     gaEvent('Error', 'FileRead', ex.name);
     const msg = `An error occured reading ${app.file.name}`;
     console.error(msg, ex);
@@ -183,7 +183,7 @@ app.saveFile = async (): Promise<void> => {
     gaEvent('FileAction', 'Save');
     await writeFile(app.file.handle, app.getText());
     app.setModified(false);
-  } catch (ex) {
+  } catch (ex: any) {
     gaEvent('Error', 'FileSave', ex.name);
     const msg = 'Unable to save file';
     console.error(msg, ex);
@@ -198,7 +198,7 @@ app.saveFile = async (): Promise<void> => {
 app.saveFileAs = async (): Promise<void> => {
   if (!app.hasFSAccess) {
     gaEvent('FileAction', 'Save As', 'Legacy');
-    app.saveAsLegacy(app.file.name, app.getText());
+    app.saveAsLegacy(app.file.name || 'Untitled.txt', app.getText());
     app.setFocus();
     return;
   }
@@ -206,7 +206,7 @@ app.saveFileAs = async (): Promise<void> => {
   let fileHandle;
   try {
     fileHandle = await getNewFileHandle();
-  } catch (ex) {
+  } catch (ex: any) {
     if (ex.name === 'AbortError') {
       return;
     }
@@ -220,7 +220,7 @@ app.saveFileAs = async (): Promise<void> => {
     await writeFile(fileHandle, app.getText());
     app.setFile(fileHandle);
     app.setModified(false);
-  } catch (ex) {
+  } catch (ex: any) {
     gaEvent('Error', 'FileSaveAs2', ex.name);
     const msg = 'Unable to save file.';
     console.error(msg, ex);

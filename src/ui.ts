@@ -16,10 +16,10 @@
 
 import { app } from "./app.js";
 
-  const spanAppName = document.getElementById('headerAppName');
-  const spanFileName = document.getElementById('headerFileName');
-  const modifiedHeader = document.getElementById('modifiedHeader');
-  const modifiedFooter = document.getElementById('modifiedFooter');
+  const spanAppName = document.getElementById('headerAppName')!;
+  const spanFileName = document.getElementById('headerFileName')!;
+  const modifiedHeader = document.getElementById('modifiedHeader')!;
+  const modifiedFooter = document.getElementById('modifiedFooter')!;
 
   // Setup the before unload listener to prevent accidental loss on navigation.
   window.addEventListener('beforeunload', (e) => {

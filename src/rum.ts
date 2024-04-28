@@ -25,7 +25,7 @@
  * @param value A numeric value associated with the event.
  * @param nonInteraction Indicates a non-interaction event.
  */
-export function gaEvent(category: string, action: string, label?: string, value?: number, nonInteraction?: boolean): void {
+export function gaEvent(category: string, action: string, label?: string | null, value?: number | null, nonInteraction?: boolean): void {
   // eslint-disable-next-line no-console
   console.log('🔔', category, action, label, value);
   if (location.hostname === 'localhost') {

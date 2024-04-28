@@ -27,7 +27,7 @@ import { app } from "./app.js";
   app.getFileLegacy = (): Promise<File> => {
     return new Promise((resolve, reject) => {
       filePicker.onchange = () => {
-        const file = filePicker.files[0];
+        const file = filePicker.files![0];
         if (file) {
           resolve(file);
           return;

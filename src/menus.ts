@@ -63,9 +63,9 @@ addKeyboardShortcut(button: HTMLButtonElement): void {
     // Keyboard shortcuts aren't available on mac.
     return;
   }
-  let key: string;
+  let key: string | undefined;
   try {
-    key = button.querySelector('.kbdShortcut').textContent.trim().toLowerCase();
+    key = button.querySelector('.kbdShortcut')!.textContent!.trim().toLowerCase();
   } catch (ex) {
     // No keyboard shortcut found.
   }
@@ -96,7 +96,7 @@ hideAll(): void {
  * @param menuContainer Container element with the drop down menu.
  */
 hide(menuContainer: Element): void {
-  const button = menuContainer.querySelector('.menuTop');
+  const button = menuContainer.querySelector('.menuTop')!;
   button.setAttribute('aria-expanded', String(false));
   const panel = menuContainer.querySelector('.menuItemContainer');
   if (panel) {
@@ -111,9 +111,9 @@ hide(menuContainer: Element): void {
  */
 show(menuContainer: Element): void {
   myMenus.hideAll();
-  const button = menuContainer.querySelector('.menuTop');
+  const button = menuContainer.querySelector('.menuTop')!;
   button.setAttribute('aria-expanded', String(true));
-  const panel = menuContainer.querySelector('.menuItemContainer');
+  const panel = menuContainer.querySelector('.menuItemContainer')!;
   panel.classList.toggle('hidden', false);
   const firstButton = panel.querySelector('button');
   if (!firstButton) {
@@ -145,7 +145,7 @@ createButton(label: string): HTMLButtonElement {
  * @param elem Element to add to the menu container.
  */
 addElement(menuContainer: Element, elem: Element): void {
-  const container = menuContainer.querySelector('.menuItemContainer');
+  const container = menuContainer.querySelector('.menuItemContainer')!;
   container.appendChild(elem);
 },
 
@@ -155,7 +155,7 @@ addElement(menuContainer: Element, elem: Element): void {
  * @param menuContainer Container element with the drop down menu.
  */
 clearMenu(menuContainer: Element): void {
-  const container = menuContainer.querySelector('.menuItemContainer');
+  const container = menuContainer.querySelector('.menuItemContainer')!;
   container.innerHTML = '';
 },
 
@@ -166,7 +166,7 @@ clearMenu(menuContainer: Element): void {
  * @param button Toggle button to show/hide menu.
  */
 _toggle(button: Element): void {
-  const parent = button.parentElement;
+  const parent = button.parentElement!;
   const expanded = button.getAttribute('aria-expanded');
   if (expanded === 'true') {
     myMenus.hide(parent);

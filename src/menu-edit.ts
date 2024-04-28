@@ -18,22 +18,22 @@ import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-  const menuEdit = document.getElementById('menuEdit');
+  const menuEdit = document.getElementById('menuEdit')!;
   myMenus.setup(menuEdit);
 
-  document.getElementById('butCut').addEventListener('click', () => {
+  document.getElementById('butCut')!.addEventListener('click', () => {
     myMenus.hide(menuEdit);
     document.execCommand('cut');
     gaEvent('Edit', 'Cut');
   });
 
-  document.getElementById('butCopy').addEventListener('click', () => {
+  document.getElementById('butCopy')!.addEventListener('click', () => {
     myMenus.hide(menuEdit);
     document.execCommand('copy');
     gaEvent('Edit', 'Copy');
   });
 
-  document.getElementById('butPaste').addEventListener('click', async () => {
+  document.getElementById('butPaste')!.addEventListener('click', async () => {
     myMenus.hide(menuEdit);
     try {
       const contents = await navigator.clipboard.readText();
@@ -41,7 +41,7 @@ import { gaEvent } from "./rum.js";
       app.setModified(true);
       app.setFocus();
       gaEvent('Edit', 'Paste');
-    } catch (ex) {
+    } catch (ex: any) {
       console.error('Unable to paste', ex);
       gaEvent('Error', 'Paste', ex.name);
     }
