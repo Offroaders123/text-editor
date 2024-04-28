@@ -1,4 +1,4 @@
-interface App {
+export interface App {
   appName: string;
   file: {
     handle: FileSystemFileHandle | null;

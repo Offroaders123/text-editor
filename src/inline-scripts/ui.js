@@ -16,6 +16,8 @@
 
 'use strict';
 
+import { app } from "./app.js";
+
 (function(app) {
   const spanAppName = document.getElementById('headerAppName');
   const spanFileName = document.getElementById('headerFileName');

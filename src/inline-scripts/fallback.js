@@ -16,6 +16,8 @@
 
 'use strict';
 
+import { app } from "./app.js";
+
 (function(app) {
   const filePicker = /** @type {HTMLInputElement} */ (document.getElementById('filePicker'));
   const aDownloadFile = /** @type {HTMLAnchorElement} */ (document.getElementById('aDownloadFile'));

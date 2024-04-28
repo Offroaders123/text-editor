@@ -16,8 +16,10 @@
 
 'use strict';
 
+import { app } from "./app.js";
+
 // eslint-disable-next-line no-redeclare
-const myMenus = {};
+export const myMenus = {};
 
 /**
  * Initializes a drop down menu.

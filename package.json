@@ -1,5 +1,6 @@
 {
   "name": "text-editor",
+  "type": "module",
   "description": "Text Editor - Demo for the HTML5 File System Access API.",
   "version": "0.0.13",
   "repository": {

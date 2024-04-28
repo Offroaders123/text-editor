@@ -16,6 +16,10 @@
 
 'use strict';
 
+import { app } from "./app.js";
+import { idbKeyval } from "./idb-keyval-iife.js";
+import { myMenus } from "./menus.js";
+
 /* global idbKeyval */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 

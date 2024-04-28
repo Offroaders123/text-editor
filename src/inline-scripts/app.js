@@ -16,11 +16,14 @@
 
 'use strict';
 
+import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
+import { gaEvent } from "./rum.js";
+
 /* globals getFileHandle, getNewFileHandle, readFile, verifyPermission,
            writeFile */
 
 // eslint-disable-next-line no-redeclare
-const app = /** @type {App} */ ({
+export const app = /** @type {import("./app-types.d.ts").App} */ ({
   appName: 'Text Editor',
   file: {
     handle: null,

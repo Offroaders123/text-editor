@@ -2,9 +2,9 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "module": "None",
+    "module": "NodeNext",
     "target": "ESNext",
-    // "isolatedModules": true,
+    "isolatedModules": true,
     // "resolveJsonModule": true,
     "types": [
       "google.analytics",

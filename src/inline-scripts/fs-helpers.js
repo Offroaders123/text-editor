@@ -24,7 +24,7 @@
  *
  * @return {!Promise<FileSystemFileHandle>} Handle to the existing file.
  */
-function getFileHandle() {
+export function getFileHandle() {
   // For Chrome 86 and later...
   if ('showOpenFilePicker' in window) {
     return window.showOpenFilePicker().then((handles) => handles[0]);
@@ -38,7 +38,7 @@ function getFileHandle() {
  *
  * @return {!Promise<FileSystemFileHandle>} Handle to the new file.
  */
-function getNewFileHandle() {
+export function getNewFileHandle() {
   // For Chrome 86 and later...
   if ('showSaveFilePicker' in window) {
     /** @type {SaveFilePickerOptions} */
@@ -69,7 +69,7 @@ function getNewFileHandle() {
  * @param {File} file
  * @return {!Promise<string>} A promise that resolves to the parsed string.
  */
-function readFile(file) {
+export function readFile(file) {
   // If the new .text() reader is available, use it.
   if (file.text) {
     return file.text();
@@ -103,7 +103,7 @@ function _readFileLegacy(file) {
  * @param {FileSystemFileHandle} fileHandle File handle to write to.
  * @param {string} contents Contents to write.
  */
-async function writeFile(fileHandle, contents) {
+export async function writeFile(fileHandle, contents) {
   // Support for Chrome 82 and earlier.
   // @ts-expect-error - legacy support
   if (fileHandle.createWriter) {
@@ -133,7 +133,7 @@ async function writeFile(fileHandle, contents) {
  * @param {boolean} withWrite True if write permission should be checked.
  * @return {Promise<boolean>} True if the user has granted read/write permission.
  */
-async function verifyPermission(fileHandle, withWrite) {
+export async function verifyPermission(fileHandle, withWrite) {
   /** @type {FileSystemHandlePermissionDescriptor} */
   const opts = {};
   if (withWrite) {

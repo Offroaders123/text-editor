@@ -1,7 +1,7 @@
 /* From https://github.com/jakearchibald/idb-keyval */
 /* Retreived 2020-04-10 */
 
-var idbKeyval = (function () {
+export var idbKeyval = (function () {
   'use strict';
 
   class Store {

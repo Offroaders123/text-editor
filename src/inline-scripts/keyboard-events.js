@@ -16,6 +16,8 @@
 
 'use strict';
 
+import { app } from "./app.js";
+
 /**
  * Setup keyboard shortcuts
  */
