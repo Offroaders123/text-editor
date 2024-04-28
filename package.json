@@ -54,6 +54,7 @@
     "build-prod": "gulp buildProd",
     "clean": "gulp clean",
     "deploy": "gulp deployProd",
+    "dev": "npx vite",
     "lint": "gulp lint",
     "serve": "gulp serve",
     "serve-prod": "gulp serveProd",
