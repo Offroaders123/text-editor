@@ -1,8 +1,6 @@
-//// @ts-nocheck
+import { defineConfig } from "vite";
 
-// import { defineConfig } from "vite";
-
-export default {
+export default defineConfig({
   base: "./",
   build: {
     target: "esnext"
@@ -15,4 +13,4 @@ export default {
     port: 5500,
     strictPort: true
   }
-};
+});
