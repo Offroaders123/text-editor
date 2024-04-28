@@ -8,6 +8,7 @@
       "google.analytics",
       "new-javascript/wicg/file-system-access",
       "new-javascript/wicg/manifest-incubations",
+      "vite/client",
       "wicg-file-system-access"
     ],
     "noEmit": true,
@@ -27,5 +28,8 @@
   //   "./node_modules/gulp-eslint/**/*",
   //   "./node_modules/gulp-inline-source/**/*",
   //   "./node_modules/workbox-build/**/*"
-  // ]
+  // ],
+  "exclude": [
+    "./src/service-worker"
+  ]
 }

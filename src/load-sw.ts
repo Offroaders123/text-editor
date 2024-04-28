@@ -17,7 +17,7 @@
 'use strict';
 
 window.addEventListener('load', () => {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && window.isSecureContext && !import.meta.env.DEV) {
     navigator.serviceWorker
         .register('./service-worker.js');
   }

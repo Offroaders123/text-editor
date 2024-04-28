@@ -1,5 +1,3 @@
-/// <reference lib="WebWorker"/>
-
 /**
  * Copyright 2019 Google LLC
  *
@@ -18,19 +16,19 @@
 
 'use strict';
 
-const sw = self as unknown as ServiceWorkerGlobalScope;
+declare var self: ServiceWorkerGlobalScope;
 
-sw.addEventListener('install', function() {
+self.addEventListener('install', function() {
   // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Install');
-  sw.skipWaiting();
+  self.skipWaiting();
 });
 
-sw.addEventListener('activate', function() {
+self.addEventListener('activate', function() {
   // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Activate');
-  return sw.clients.claim();
+  return self.clients.claim();
 });
 
-sw.addEventListener('fetch', function() {
+self.addEventListener('fetch', function() {
 });
