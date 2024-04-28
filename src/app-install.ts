@@ -21,7 +21,7 @@ import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
 (function(app) {
-  const butInstall = /** @type {HTMLButtonElement} */ (document.getElementById('butInstall'));
+  const butInstall = document.getElementById('butInstall') as HTMLButtonElement;
 
   /**
    * Track successful app installs

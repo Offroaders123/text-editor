@@ -19,15 +19,15 @@
 import { app } from "./app.js";
 
 // eslint-disable-next-line no-redeclare
-export const myMenus = {};
+export const myMenus = {
 
 /**
  * Initializes a drop down menu.
  *
- * @param {HTMLElement} container Container element with the drop down menu.
+ * @param container Container element with the drop down menu.
  */
-myMenus.setup = (container) => {
-  const toggleButton = /** @type {HTMLButtonElement} */ (container.querySelector('button.menuTop'));
+setup(container: HTMLElement): void {
+  const toggleButton = container.querySelector('button.menuTop') as HTMLButtonElement;
   toggleButton.addEventListener('click', () => {
     myMenus._toggle(toggleButton);
   });
@@ -39,34 +39,33 @@ myMenus.setup = (container) => {
       return;
     }
     if (e.keyCode === 40) {
-      const next = /** @type {HTMLElement} */ (/** @type {Element} */ (e.srcElement).nextElementSibling);
+      const next = (e.srcElement as Element).nextElementSibling as HTMLElement;
       if (next) {
         next.focus();
       }
       return;
     }
     if (e.keyCode === 38) {
-      const prev = /** @type {HTMLElement} */ (/** @type {Element} */ (e.srcElement).previousElementSibling);
+      const prev = (e.srcElement as Element).previousElementSibling as HTMLElement;
       if (prev) {
         prev.focus();
       }
       return;
     }
   });
-};
+},
 
 /**
  * Initializes a drop down menu.
  *
- * @param {HTMLButtonElement} button Toggle button to show/hide menu.
+ * @param button Toggle button to show/hide menu.
  */
-myMenus.addKeyboardShortcut = (button) => {
+addKeyboardShortcut(button: HTMLButtonElement): void {
   if (app.isMac) {
     // Keyboard shortcuts aren't available on mac.
     return;
   }
-  /** @type {string} */
-  let key;
+  let key: string;
   try {
     key = button.querySelector('.kbdShortcut').textContent.trim().toLowerCase();
   } catch (ex) {
@@ -81,38 +80,38 @@ myMenus.addKeyboardShortcut = (button) => {
       button.click();
     }
   });
-};
+},
 
 /**
  * Hides all visible menus.
  */
-myMenus.hideAll = () => {
+hideAll(): void {
   const elems = document.querySelectorAll('.menuContainer');
   elems.forEach((elem) => {
     myMenus.hide(elem);
   });
-};
+},
 
 /**
  * Hides a menu dropdown.
  *
- * @param {Element} menuContainer Container element with the drop down menu.
+ * @param menuContainer Container element with the drop down menu.
  */
-myMenus.hide = (menuContainer) => {
+hide(menuContainer: Element): void {
   const button = menuContainer.querySelector('.menuTop');
   button.setAttribute('aria-expanded', String(false));
   const panel = menuContainer.querySelector('.menuItemContainer');
   if (panel) {
     panel.classList.toggle('hidden', true);
   }
-};
+},
 
 /**
  * Shows a menu dropdown.
  *
- * @param {Element} menuContainer Container element with the drop down menu.
+ * @param menuContainer Container element with the drop down menu.
  */
-myMenus.show = (menuContainer) => {
+show(menuContainer: Element): void {
   myMenus.hideAll();
   const button = menuContainer.querySelector('.menuTop');
   button.setAttribute('aria-expanded', String(true));
@@ -125,50 +124,50 @@ myMenus.show = (menuContainer) => {
     return;
   }
   firstButton.focus();
-};
+},
 
 /**
  * Creates a new menu item button.
  *
- * @param {string} label Label for button
- * @return {HTMLButtonElement} Returns an HTML button.
+ * @param label Label for button
+ * @returns Returns an HTML button.
  */
-myMenus.createButton = (label) => {
+createButton(label: string): HTMLButtonElement {
   const butt = document.createElement('button');
   butt.innerText = label;
   butt.setAttribute('type', 'button');
   butt.setAttribute('role', 'menuitem');
   return butt;
-};
+},
 
 /**
  * Adds an element to the menu.
  *
- * @param {Element} menuContainer Container element with the drop down menu.
- * @param {Element} elem Element to add to the menu container.
+ * @param menuContainer Container element with the drop down menu.
+ * @param elem Element to add to the menu container.
  */
-myMenus.addElement = (menuContainer, elem) => {
+addElement(menuContainer: Element, elem: Element): void {
   const container = menuContainer.querySelector('.menuItemContainer');
   container.appendChild(elem);
-};
+},
 
 /**
  * Removes all items from the menu.
  *
- * @param {Element} menuContainer Container element with the drop down menu.
+ * @param menuContainer Container element with the drop down menu.
  */
-myMenus.clearMenu = (menuContainer) => {
+clearMenu(menuContainer: Element): void {
   const container = menuContainer.querySelector('.menuItemContainer');
   container.innerHTML = '';
-};
+},
 
 /**
  * Toggles a menu open or closed.
  *
  * @private
- * @param {Element} button Toggle button to show/hide menu.
+ * @param button Toggle button to show/hide menu.
  */
-myMenus._toggle = (button) => {
+_toggle(button: Element): void {
   const parent = button.parentElement;
   const expanded = button.getAttribute('aria-expanded');
   if (expanded === 'true') {
@@ -176,6 +175,8 @@ myMenus._toggle = (button) => {
   } else {
     myMenus.show(parent);
   }
+}
+
 };
 
 /* Show shortcuts on menu items when ALT key is pressed, non-Mac only */

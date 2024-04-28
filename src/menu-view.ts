@@ -57,7 +57,7 @@ import { gaEvent } from "./rum.js";
   /**
    * Toggle word wrap
    */
-  app.toggleWordWrap = () => {
+  app.toggleWordWrap = (): void => {
     const newVal = document.body.classList.toggle('wordwrap');
     butWordWrap.setAttribute('aria-checked', String(newVal));
     app.options.wordWrap = newVal;
@@ -67,7 +67,7 @@ import { gaEvent } from "./rum.js";
   /**
    * Toggle Monospace
    */
-  app.toggleMonospace = () => {
+  app.toggleMonospace = (): void => {
     const newVal = document.body.classList.toggle('monospace');
     butMonospace.setAttribute('aria-checked', String(newVal));
     app.options.monoSpace = newVal;
@@ -77,7 +77,7 @@ import { gaEvent } from "./rum.js";
   /**
    * Toggles the capture tab functionality
    */
-  app.toggleCaptureTabs = () => {
+  app.toggleCaptureTabs = (): void => {
     const newVal = !app.options.captureTabs;
     app.options.captureTabs = newVal;
     butCaptureTabs.setAttribute('aria-checked', String(newVal));

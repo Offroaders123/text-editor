@@ -27,15 +27,14 @@ import { myMenus } from "./menus.js";
   const menuRecent = document.getElementById('menuRecent');
   myMenus.setup(menuRecent);
 
-  /** @type {FileSystemFileHandle[]} */
-  let recentFiles = [];
+  let recentFiles: FileSystemFileHandle[] = [];
 
   /**
    * Adds a new item to the list of recent files.
    *
-   * @param {FileSystemFileHandle} fileHandle File handle to add.
+   * @param fileHandle File handle to add.
    */
-  app.addRecent = async function(fileHandle) {
+  app.addRecent = async function(fileHandle: FileSystemFileHandle): Promise<void> {
     // If isSameEntry isn't available, we can't store the file handle
     if (!fileHandle.isSameEntry) {
       console.warn('Saving of recents is unavailable.');
@@ -67,7 +66,7 @@ import { myMenus } from "./menus.js";
   /**
    * Refresh the list of files in the menu.
    */
-  async function refreshRecents() {
+  async function refreshRecents(): Promise<void> {
     // Clear the existing menu.
     myMenus.clearMenu(menuRecent);
 
@@ -93,7 +92,7 @@ import { myMenus } from "./menus.js";
   /**
    * Adds a clear button to the menu that clears the list of most recent items.
    */
-  function addClearButton() {
+  function addClearButton(): void {
     const clearButt = myMenus.createButton('Clear');
     clearButt.addEventListener('click', () => {
       myMenus.clearMenu(menuRecent);
@@ -107,7 +106,7 @@ import { myMenus } from "./menus.js";
   /**
    * Initializes the recents menu.
    */
-  async function init() {
+  async function init(): Promise<void> {
     recentFiles = await idbKeyval.get('recentFiles') || [];
     refreshRecents();
   }

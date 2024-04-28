@@ -35,9 +35,9 @@ import { app } from "./app.js";
 
   /**
    * Confirms user does not want to save before closing the current doc.
-   * @return {boolean} True if it's OK to discard.
+   * @returns True if it's OK to discard.
    */
-  app.confirmDiscard = () => {
+  app.confirmDiscard = (): boolean => {
     if (!app.file.isModified) {
       return true;
     }
@@ -47,9 +47,9 @@ import { app } from "./app.js";
 
   /**
    * Updates the UI with the current file name.
-   * @param {FileSystemFileHandle|string} fileHandle Filename to display in header.
+   * @param fileHandle Filename to display in header.
    */
-  app.setFile = (fileHandle) => {
+  app.setFile = (fileHandle: string | FileSystemFileHandle): void => {
     if (typeof fileHandle !== "string" && "name" in fileHandle) {
       app.file.handle = fileHandle;
       app.file.name = fileHandle.name;
@@ -68,9 +68,9 @@ import { app } from "./app.js";
 
   /**
    * Updates the UI if the file has been modified.
-   * @param {boolean} val True if the file has been modified.
+   * @param val True if the file has been modified.
    */
-  app.setModified = (val) => {
+  app.setModified = (val: boolean): void => {
     if (!app.hasFSAccess) {
       return;
     }

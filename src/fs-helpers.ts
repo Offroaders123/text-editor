@@ -22,27 +22,26 @@
 /**
  * Open a handle to an existing file on the local file system.
  *
- * @return {!Promise<FileSystemFileHandle>} Handle to the existing file.
+ * @returns Handle to the existing file.
  */
-export function getFileHandle() {
+export function getFileHandle(): Promise<FileSystemFileHandle> {
   // For Chrome 86 and later...
   if ('showOpenFilePicker' in window) {
     return window.showOpenFilePicker().then((handles) => handles[0]);
   }
   // For Chrome 85 and earlier...
-  return /** @type {window} */ (window).chooseFileSystemEntries();
+  return (window as typeof globalThis).chooseFileSystemEntries();
 }
 
 /**
  * Create a handle to a new (text) file on the local file system.
  *
- * @return {!Promise<FileSystemFileHandle>} Handle to the new file.
+ * @returns Handle to the new file.
  */
-export function getNewFileHandle() {
+export function getNewFileHandle(): Promise<FileSystemFileHandle> {
   // For Chrome 86 and later...
   if ('showSaveFilePicker' in window) {
-    /** @type {SaveFilePickerOptions} */
-    const opts = {
+    const opts: SaveFilePickerOptions = {
       types: [{
         description: 'Text file',
         accept: {'text/plain': ['.txt']},
@@ -51,8 +50,7 @@ export function getNewFileHandle() {
     return window.showSaveFilePicker(opts);
   }
   // For Chrome 85 and earlier...
-  /** @type {ChooseFileSystemEntriesFileOptions & { type: "save-file"; }} */
-  const opts = {
+  const opts: ChooseFileSystemEntriesFileOptions & { type: "save-file"; } = {
     type: 'save-file',
     accepts: [{
       description: 'Text file',
@@ -60,16 +58,15 @@ export function getNewFileHandle() {
       mimeTypes: ['text/plain'],
     }],
   };
-  return /** @type {window} */ (window).chooseFileSystemEntries(opts);
+  return (window as typeof globalThis).chooseFileSystemEntries(opts);
 }
 
 /**
  * Reads the raw text from a file.
  *
- * @param {File} file
- * @return {!Promise<string>} A promise that resolves to the parsed string.
+ * @returns A promise that resolves to the parsed string.
  */
-export function readFile(file) {
+export function readFile(file: File): Promise<string> {
   // If the new .text() reader is available, use it.
   if (file.text) {
     return file.text();
@@ -82,15 +79,13 @@ export function readFile(file) {
  * Reads the raw text from a file.
  *
  * @private
- * @param {File} file
- * @return {Promise<string>} A promise that resolves to the parsed string.
+ * @returns A promise that resolves to the parsed string.
  */
-function _readFileLegacy(file) {
+function _readFileLegacy(file: File): Promise<string> {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.addEventListener('loadend', (e) => {
-      /** @type {string} */
-      const text = /** @type {string} */ (/** @type {FileReader} */ (e.srcElement).result);
+      const text: string = (e.srcElement as FileReader).result as string;
       resolve(text);
     });
     reader.readAsText(file);
@@ -100,10 +95,10 @@ function _readFileLegacy(file) {
 /**
  * Writes the contents to disk.
  *
- * @param {FileSystemFileHandle} fileHandle File handle to write to.
- * @param {string} contents Contents to write.
+ * @param fileHandle File handle to write to.
+ * @param contents Contents to write.
  */
-export async function writeFile(fileHandle, contents) {
+export async function writeFile(fileHandle: FileSystemFileHandle, contents: string): Promise<void> {
   // Support for Chrome 82 and earlier.
   // @ts-expect-error - legacy support
   if (fileHandle.createWriter) {
@@ -129,13 +124,12 @@ export async function writeFile(fileHandle, contents) {
  * Verify the user has granted permission to read or write to the file, if
  * permission hasn't been granted, request permission.
  *
- * @param {FileSystemFileHandle} fileHandle File handle to check.
- * @param {boolean} withWrite True if write permission should be checked.
- * @return {Promise<boolean>} True if the user has granted read/write permission.
+ * @param fileHandle File handle to check.
+ * @param withWrite True if write permission should be checked.
+ * @returns True if the user has granted read/write permission.
  */
-export async function verifyPermission(fileHandle, withWrite) {
-  /** @type {FileSystemHandlePermissionDescriptor} */
-  const opts = {};
+export async function verifyPermission(fileHandle: FileSystemFileHandle, withWrite: boolean): Promise<boolean> {
+  const opts: FileSystemHandlePermissionDescriptor = {};
   if (withWrite) {
     opts.writable = true;
     // For Chrome 86 and later...

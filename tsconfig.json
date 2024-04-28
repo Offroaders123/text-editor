@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
     "module": "NodeNext",
     "target": "ESNext",
     "isolatedModules": true,
@@ -29,8 +27,5 @@
   //   "./node_modules/gulp-eslint/**/*",
   //   "./node_modules/gulp-inline-source/**/*",
   //   "./node_modules/workbox-build/**/*"
-  // ],
-  "exclude": [
-    "./dist"
-  ]
+  // ]
 }

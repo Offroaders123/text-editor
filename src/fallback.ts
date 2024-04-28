@@ -19,15 +19,15 @@
 import { app } from "./app.js";
 
 (function(app) {
-  const filePicker = /** @type {HTMLInputElement} */ (document.getElementById('filePicker'));
-  const aDownloadFile = /** @type {HTMLAnchorElement} */ (document.getElementById('aDownloadFile'));
+  const filePicker = document.getElementById('filePicker') as HTMLInputElement;
+  const aDownloadFile = document.getElementById('aDownloadFile') as HTMLAnchorElement;
 
   /**
    * Uses the <input type="file"> to open a new file
    *
-   * @return {!Promise<File>} File selected by the user.
+   * @returns File selected by the user.
    */
-  app.getFileLegacy = () => {
+  app.getFileLegacy = (): Promise<File> => {
     return new Promise((resolve, reject) => {
       filePicker.onchange = () => {
         const file = filePicker.files[0];
@@ -45,11 +45,11 @@ import { app } from "./app.js";
    * Saves a file by creating a downloadable instance, and clicking on the
    * download link.
    *
-   * @param {string} filename Filename to save the file as.
-   * @param {string} contents Contents of the file to save.
+   * @param filename Filename to save the file as.
+   * @param contents Contents of the file to save.
    */
   // function saveAsLegacy(filename, contents) {
-  app.saveAsLegacy = (filename, contents) => {
+  app.saveAsLegacy = (filename: string, contents: string): void => {
     filename = filename || 'Untitled.txt';
     const opts = {type: 'text/plain'};
     const file = new File([contents], '', opts);

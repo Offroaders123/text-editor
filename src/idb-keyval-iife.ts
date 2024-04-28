@@ -5,9 +5,11 @@ export var idbKeyval = (function () {
   'use strict';
 
   class Store {
+      storeName: string;
+      private _dbp: Promise<IDBDatabase>;
+
       constructor(dbName = 'keyval-store', storeName = 'keyval') {
           this.storeName = storeName;
-          /** @type {Promise<IDBDatabase>} */
           this._dbp = new Promise((resolve, reject) => {
               const openreq = indexedDB.open(dbName, 1);
               openreq.onerror = () => reject(openreq.error);
@@ -18,12 +20,7 @@ export var idbKeyval = (function () {
               };
           });
       }
-      /**
-       * @param {IDBTransactionMode} type
-       * @param {(objectStore: IDBObjectStore) => void} callback
-       * @returns {Promise<void>}
-       */
-      _withIDBStore(type, callback) {
+      _withIDBStore(type: IDBTransactionMode, callback: (objectStore: IDBObjectStore) => void): Promise<void> {
           return this._dbp.then(db => new Promise((resolve, reject) => {
               const transaction = db.transaction(this.storeName, type);
               transaction.oncomplete = () => resolve();
@@ -32,66 +29,39 @@ export var idbKeyval = (function () {
           }));
       }
   }
-  /** @type {Store} */
-  let store;
-  function getDefaultStore() {
+  let store: Store;
+  function getDefaultStore(): Store {
       if (!store)
           store = new Store();
       return store;
   }
-  /**
-   * @template T
-   * @param {IDBValidKey} key
-   * @param {Store} [store]
-   * @returns {Promise<T>}
-   */
-  function get(key, store = getDefaultStore()) {
-      /** @type {IDBRequest<T>} */
-      let req;
+  function get<T>(key: IDBValidKey, store: Store = getDefaultStore()): Promise<T> {
+      let req: IDBRequest<T>;
       return store._withIDBStore('readonly', store => {
           req = store.get(key);
       }).then(() => req.result);
   }
-  /**
-   * @template T
-   * @param {IDBValidKey} key
-   * @param {T} value
-   * @returns {Promise<void>}
-   */
-  function set(key, value, store = getDefaultStore()) {
+  function set<T>(key: IDBValidKey, value: T, store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.put(value, key);
       });
   }
-  /**
-   * @param {IDBValidKey} key
-   * @returns {Promise<void>}
-   */
-  function del(key, store = getDefaultStore()) {
+  function del(key: IDBValidKey, store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.delete(key);
       });
   }
-  /**
-   * @param {Store} [store]
-   * @returns {Promise<void>}
-   */
-  function clear(store = getDefaultStore()) {
+  function clear(store: Store = getDefaultStore()): Promise<void> {
       return store._withIDBStore('readwrite', store => {
           store.clear();
       });
   }
-  /**
-   * @param {Store} [store]
-   * @returns {Promise<IDBValidKey[]>}
-   */
-  function keys(store = getDefaultStore()) {
-      /** @type {IDBValidKey[]} */
-      const keys = [];
+  function keys(store: Store = getDefaultStore()): Promise<IDBValidKey[]> {
+      const keys: IDBValidKey[] = [];
       return store._withIDBStore('readonly', store => {
           // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
           // And openKeyCursor isn't supported by Safari.
-          /** @type {IDBObjectStore["openKeyCursor"]} */ (store.openKeyCursor || store.openCursor).call(store).onsuccess = function () {
+          ((store.openKeyCursor || store.openCursor) as IDBObjectStore["openKeyCursor"]).call(store).onsuccess = function () {
               if (!this.result)
                   return;
               keys.push(this.result.key);

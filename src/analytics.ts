@@ -23,7 +23,7 @@
  */
 
 /* eslint-disable */
-window.ga=window.ga||(/** @type {typeof window.ga} */ (function(){(ga.q=ga.q||[]).push(arguments)}));ga.l=+new Date;
+window.ga=window.ga||(function(){(ga.q=ga.q||[]).push(arguments)} as unknown as typeof window.ga);ga.l=+new Date;
 /* esline-enable */
 
 /* Enable Google Analytics Here. */

@@ -18,7 +18,7 @@
 
 'use strict';
 
-const sw = /** @type {ServiceWorkerGlobalScope} */ (/** @type {unknown} */ (self));
+const sw = self as unknown as ServiceWorkerGlobalScope;
 
 sw.addEventListener('install', function() {
   // eslint-disable-next-line no-console

@@ -21,7 +21,7 @@ import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
 (function(app) {
-  const textArea = /** @type {HTMLTextAreaElement} */ (document.getElementById('textEditor'));
+  const textArea = document.getElementById('textEditor') as HTMLTextAreaElement;
 
   /* Setup the main textarea */
   textArea.addEventListener('input', () => {
@@ -50,29 +50,25 @@ import { gaEvent } from "./rum.js";
 
   /**
    * Sets the text of the editor to the specified value
-   *
-   * @param {string} val
    */
-  app.setText = (val) => {
+  app.setText = (val: string): void => {
     val = val || '';
     textArea.value = val;
   };
 
   /**
    * Gets the text from the editor
-   *
-   * @return {string}
    */
-  app.getText = () => {
+  app.getText = (): string => {
     return textArea.value;
   };
 
   /**
    * Inserts a string into the editor.
    *
-   * @param {string} contents Contents to insert into the document.
+   * @param contents Contents to insert into the document.
    */
-  app.insertIntoDoc = (contents) => {
+  app.insertIntoDoc = (contents: string): void => {
     // Find the current cursor position
     const startPos = textArea.selectionStart;
     const endPos = textArea.selectionEnd;
@@ -95,9 +91,9 @@ import { gaEvent } from "./rum.js";
   /**
    * Adjust the font size of the textarea up or down by the specified amount.
    *
-   * @param {Number} val Number of pixels to adjust font size by (eg: +2, -2).
+   * @param val Number of pixels to adjust font size by (eg: +2, -2).
    */
-  app.adjustFontSize = (val) => {
+  app.adjustFontSize = (val: number): void => {
     const newFontSize = app.options.fontSize + val;
     if (newFontSize >= 2) {
       textArea.style.fontSize = `${newFontSize}px`;
@@ -108,10 +104,8 @@ import { gaEvent } from "./rum.js";
 
   /**
    * Moves focus to the text area, and potentially cursor to position zero.
-   *
-   * @param {boolean} startAtTop
    */
-  app.setFocus = (startAtTop) => {
+  app.setFocus = (startAtTop: boolean): void => {
     if (startAtTop) {
       textArea.selectionStart = 0;
       textArea.selectionEnd = 0;

@@ -19,11 +19,49 @@
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent } from "./rum.js";
 
+export interface App {
+  appName: string;
+  file: {
+    handle: FileSystemFileHandle | null;
+    name: string | null;
+    isModified: boolean;
+  };
+  options: {
+    captureTabs: boolean;
+    fontSize: number;
+    monoSpace: boolean;
+    wordWrap: boolean;
+  };
+  hasFSAccess: boolean;
+  isMac: boolean;
+  installPrompt: BeforeInstallPromptEvent;
+  newFile(): void;
+  openFile(fileHandle?: FileSystemHandle): void;
+  readFile(file?: File, fileHandle?: FileSystemHandle): Promise<void>;
+  saveFile(): Promise<void>;
+  saveFileAs(): Promise<void>;
+  quitApp(): void;
+  getFileLegacy(): Promise<File>;
+  saveAsLegacy(filename: string, contents: string): void;
+  addRecent(fileHandle: FileSystemFileHandle): Promise<void>;
+  toggleWordWrap(): void;
+  toggleMonospace(): void;
+  toggleCaptureTabs(): void;
+  setText(val?: string): void;
+  getText(): string;
+  insertIntoDoc(contents: string): void;
+  adjustFontSize(val: number): void;
+  setFocus(startAtTop?: boolean): void;
+  confirmDiscard(): boolean;
+  setFile(fileHandle?: string | FileSystemFileHandle): void;
+  setModified(val: boolean): void;
+}
+
 /* globals getFileHandle, getNewFileHandle, readFile, verifyPermission,
            writeFile */
 
 // eslint-disable-next-line no-redeclare
-export const app = /** @type {import("./app-types.d.ts").App} */ ({
+export const app = {
   appName: 'Text Editor',
   file: {
     handle: null,
@@ -39,7 +77,7 @@ export const app = /** @type {import("./app-types.d.ts").App} */ ({
   hasFSAccess: 'chooseFileSystemEntries' in window ||
                'showOpenFilePicker' in window,
   isMac: navigator.userAgent.includes('Mac OS X'),
-});
+} as App;
 
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasFSAccess) {
@@ -54,7 +92,7 @@ if (app.hasFSAccess) {
 /**
  * Creates an empty notepad with no details in it.
  */
-app.newFile = () => {
+app.newFile = (): void => {
   if (!app.confirmDiscard()) {
     return;
   }
@@ -69,9 +107,9 @@ app.newFile = () => {
 /**
  * Opens a file for reading.
  *
- * @param {FileSystemFileHandle} [fileHandle] File handle to read from.
+ * @param fileHandle File handle to read from.
  */
-app.openFile = async (fileHandle) => {
+app.openFile = async (fileHandle?: FileSystemFileHandle): Promise<void> => {
   if (!app.confirmDiscard()) {
     return;
   }
@@ -119,10 +157,10 @@ app.openFile = async (fileHandle) => {
 /**
  * Read the file from disk.
  *
- *  @param {File} [file] File to read from.
- *  @param {FileSystemFileHandle} [fileHandle] File handle to read from.
+ *  @param file File to read from.
+ *  @param fileHandle File handle to read from.
  */
-app.readFile = async (file, fileHandle) => {
+app.readFile = async (file?: File, fileHandle?: FileSystemFileHandle): Promise<void> => {
   try {
     app.setText(await readFile(file));
     app.setFile(fileHandle || file.name);
@@ -139,7 +177,7 @@ app.readFile = async (file, fileHandle) => {
 /**
  * Saves a file to disk.
  */
-app.saveFile = async () => {
+app.saveFile = async (): Promise<void> => {
   try {
     if (!app.file.handle) {
       return await app.saveFileAs();
@@ -159,7 +197,7 @@ app.saveFile = async () => {
 /**
  * Saves a new file to disk.
  */
-app.saveFileAs = async () => {
+app.saveFileAs = async (): Promise<void> => {
   if (!app.hasFSAccess) {
     gaEvent('FileAction', 'Save As', 'Legacy');
     app.saveAsLegacy(app.file.name, app.getText());
@@ -198,7 +236,7 @@ app.saveFileAs = async () => {
 /**
  * Attempts to close the window
  */
-app.quitApp = () => {
+app.quitApp = (): void => {
   if (!app.confirmDiscard()) {
     return;
   }

@@ -21,20 +21,19 @@
 
 /**
  * Logs an event to Google Analytics.
- * @param {string} category - The object that was interacted with.
- * @param {string} action - The type of interaction.
- * @param {string} [label] - Useful for categorizing events.
- * @param {number} [value] - A numeric value associated with the event.
- * @param {boolean} [nonInteraction=false] - Indicates a non-interaction event.
+ * @param category The object that was interacted with.
+ * @param action The type of interaction.
+ * @param label Useful for categorizing events.
+ * @param value A numeric value associated with the event.
+ * @param nonInteraction Indicates a non-interaction event.
  */
-export function gaEvent(category, action, label, value, nonInteraction) {
+export function gaEvent(category: string, action: string, label?: string, value?: number, nonInteraction?: boolean): void {
   // eslint-disable-next-line no-console
   console.log('🔔', category, action, label, value);
   if (location.hostname === 'localhost') {
     return;
   }
-  /** @type {{ eventCategory: string; eventAction: string; eventLabel?: string; eventValue?: number; nonInteraction?: boolean; }} */
-  const obj = {
+  const obj: { eventCategory: string; eventAction: string; eventLabel?: string; eventValue?: number; nonInteraction?: boolean; } = {
     eventCategory: category,
     eventAction: action,
   };
@@ -54,12 +53,12 @@ export function gaEvent(category, action, label, value, nonInteraction) {
 
 /**
  * Logs an timing event to Google Analytics.
- * @param {string} category - Category of timer.
- * @param {string} variable - The variable being timed.
- * @param {number} value - A numeric value associated with the event.
- * @param {string} [label] - Useful for categorizing events.
+ * @param category Category of timer.
+ * @param variable The variable being timed.
+ * @param value A numeric value associated with the event.
+ * @param label Useful for categorizing events.
  */
-function gaTiming(category, variable, value, label) {
+function gaTiming(category: string, variable: string, value: number, label?: string): void {
   value = parseInt(String(value), 10);
   // eslint-disable-next-line no-console
   console.log('⏱️', category, variable, value, label);
