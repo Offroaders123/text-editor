@@ -41,7 +41,11 @@ import { gaEvent } from "./rum.js";
   /* Initialize the textarea, set focus & font size */
   window.addEventListener('DOMContentLoaded', () => {
     textArea.style.fontSize = `${app.options.fontSize}px`;
-    app.setFocus();
+    /* Should I remove 'autofocus'? Chrome is notifying in the console that it gets overridden
+        since an element in the DOM is already focused (I think `setFocus()` already gets called
+        on the text editor), since this is now loaded with JSX */
+    /* "Autofocus processing was blocked because a document already has a focused element." */
+    // app.setFocus();
   });
 
 
@@ -110,3 +114,6 @@ import { gaEvent } from "./rum.js";
     }
     textArea.focus();
   };
+
+  
+  // setTimeout(() => { app.setFocus(); console.log("focused"); }, 2000);

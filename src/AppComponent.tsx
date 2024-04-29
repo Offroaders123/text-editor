@@ -88,10 +88,6 @@ export default function AppComponent() {
           </div>
         </nav>
       </header>
-{/* Should I remove 'autofocus'? Chrome is notifying in the console that it gets overridden
-    since an element in the DOM is already focused (I think `setFocus()` already gets called
-    on the text editor), since this is now loaded with JSX */}
-{/* "Autofocus processing was blocked because a document already has a focused element." */}
       <textarea id="textEditor" autofocus spellcheck={true}
                 aria-label="Text Editor"></textarea>
 
