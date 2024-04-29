@@ -62,6 +62,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+#root {
+  display: contents;
+}
+
 .hidden {
   display: none !important;
 }

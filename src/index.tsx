@@ -1,5 +1,6 @@
 /* @refresh reload */
 
+import "./AppComponent.js";
 import "./analytics.js";
 
 import "./idb-keyval-iife.js";
