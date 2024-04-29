@@ -4,6 +4,8 @@
     "target": "ESNext",
     "isolatedModules": true,
     // "resolveJsonModule": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "types": [
       "google.analytics",
       "new-javascript/wicg/file-system-access",
