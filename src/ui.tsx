@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { setHeaderAppNameHidden, setHeaderFileName } from "./AppComponent.js";
+import { setHeaderAppNameHidden, setHeaderFileName, setModifiedHeaderHidden } from "./AppComponent.js";
 import { app } from "./app.js";
 
   // Setup the before unload listener to prevent accidental loss on navigation.
@@ -70,6 +70,6 @@ import { app } from "./app.js";
     app.file.isModified = val;
     document.body.classList.toggle('modified', val);
     const hidden = !val;
-    modifiedHeader.classList.toggle('hidden', hidden);
+    setModifiedHeaderHidden(hidden);
     modifiedFooter.classList.toggle('hidden', hidden);
   };

@@ -6,6 +6,7 @@ const root = document.querySelector<HTMLDivElement>("#root")!;
 
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
+export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
 
 render(() => <AppComponent/>, root);
 
@@ -16,7 +17,7 @@ export default function AppComponent() {
     <>
       <header>
         <h1>
-          <span id="headerFileName">{headerFileName()}</span><span id="modifiedHeader" class="hidden">*</span>
+          <span id="headerFileName">{headerFileName()}</span><span id="modifiedHeader" classList={{ hidden: modifiedHeaderHidden() }}>*</span>
           <span id="headerAppName" classList={{ hidden: headerAppNameHidden() }}> - Text Editor</span>
         </h1>
         <nav class="menubar">
