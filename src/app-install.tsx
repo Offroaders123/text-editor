@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
+
+export default function ButInstall() {
+  let butInstall: HTMLButtonElement;
+
+  createEffect(() => {
 
   /**
    * Track successful app installs
@@ -52,3 +58,12 @@ import { gaEvent } from "./rum.js";
   });
 
   myMenus.addKeyboardShortcut(butInstall);
+
+  });
+
+  return (
+    <button id="butInstall" ref={butInstall!} aria-label="Install" class="menuTop hidden">
+        <span class="kbdShortcut">I</span>nstall
+    </button>
+    );
+}

@@ -17,6 +17,7 @@ export default function AppComponent() {
   const MenuRecent = lazy(() => import("./menu-recent.js"));
   const MenuEdit = lazy(() => import("./menu-edit.js"));
   const MenuView = lazy(() => import("./menu-view.js"));
+  const ButInstall = lazy(() => import("./app-install.js"));
   const TextArea = lazy(() => import("./text-area.js"));
 
   return (
@@ -40,9 +41,9 @@ export default function AppComponent() {
             <MenuView/>
           </Suspense>
           <div id="menuInstall" class="menuContainer">
-            <button id="butInstall" aria-label="Install" class="menuTop hidden">
-                <span class="kbdShortcut">I</span>nstall
-            </button>
+            <Suspense>
+              <ButInstall/>
+            </Suspense>
           </div>
         </nav>
       </header>
