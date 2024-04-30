@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { set, clear, get } from "./idb-keyval-iife.js";
 import { myMenus } from "./menus.js";
 
 /* global idbKeyval */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+
+export default function MenuRecent() {
+  let menuRecent: HTMLDivElement;
+
+  createEffect(() => {
 
   myMenus.setup(menuRecent);
 
@@ -108,3 +114,16 @@ import { myMenus } from "./menus.js";
   }
 
   init();
+
+  });
+
+  return (
+    <div id="menuRecent" ref={menuRecent!} class="menuContainer">
+      <button id="butRecent" class="menuTop" aria-label="Recent" aria-haspopup="true" aria-expanded="false">
+        <span class="kbdShortcut">R</span>ecent
+      </button>
+      <div id="recentContainer" role="menu" class="menuItemContainer hidden">
+      </div>
+    </div>
+  );
+}

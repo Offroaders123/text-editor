@@ -16,7 +16,7 @@ declare global {
   var butSave: HTMLButtonElement;
   var butSaveAs: HTMLButtonElement;
   var butClose: HTMLButtonElement;
-  var menuRecent: HTMLDivElement;
+  // var menuRecent: HTMLDivElement;
   var butRecent: HTMLButtonElement;
   var recentContainer: HTMLDivElement;
   var menuEdit: HTMLDivElement;
