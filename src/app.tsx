@@ -79,7 +79,7 @@ export const app = {
 
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasFSAccess) {
-  document.getElementById('not-supported')!.classList.add('hidden');
+  document.getElementById('notSupported')!.classList.add('hidden');
   gaEvent('File System APIs', 'FSAccess');
 } else {
   document.getElementById('lblLegacyFS')!.classList.toggle('hidden', false);

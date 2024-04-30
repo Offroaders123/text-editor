@@ -234,7 +234,7 @@ summary > span {
   padding: 4px;
 }
 
-details #not-supported {
+details #notSupported {
   color: var(--app-footer-color-light);
 }
 
