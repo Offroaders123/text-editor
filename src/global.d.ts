@@ -6,7 +6,7 @@ declare global {
     readonly standalone: boolean;
   }
 
-  var headerFileName: HTMLSpanElement;
+  // var headerFileName: HTMLSpanElement;
   var modifiedHeader: HTMLSpanElement;
   var headerAppName: HTMLSpanElement;
   var menuFile: HTMLDivElement;

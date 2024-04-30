@@ -1,8 +1,10 @@
 /* @refresh reload */
-import { lazy } from "solid-js";
+import { createSignal, lazy } from "solid-js";
 import { Suspense, render } from "solid-js/web";
 
 const root = document.querySelector<HTMLDivElement>("#root")!;
+
+export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 
 render(() => <AppComponent/>, root);
 
@@ -13,7 +15,7 @@ export default function AppComponent() {
     <>
       <header>
         <h1>
-          <span id="headerFileName">Text Editor</span><span id="modifiedHeader" class="hidden">*</span>
+          <span id="headerFileName">{headerFileName()}</span><span id="modifiedHeader" class="hidden">*</span>
           <span id="headerAppName" class="hidden"> - Text Editor</span>
         </h1>
         <nav class="menubar">

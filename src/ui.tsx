@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { setHeaderFileName } from "./AppComponent.js";
 import { app } from "./app.js";
 
   // Setup the before unload listener to prevent accidental loss on navigation.
@@ -46,14 +47,14 @@ import { app } from "./app.js";
       app.file.handle = fileHandle;
       app.file.name = fileHandle.name;
       document.title = `${fileHandle.name} - ${app.appName}`;
-      headerFileName.textContent = fileHandle.name;
+      setHeaderFileName(fileHandle.name);
       headerAppName.classList.toggle('hidden', false);
       app.addRecent(fileHandle);
     } else {
       app.file.handle = null;
       app.file.name = fileHandle;
       document.title = app.appName;
-      headerFileName.textContent = app.appName;
+      setHeaderFileName(app.appName);
       headerAppName.classList.toggle('hidden', true);
     }
   };
