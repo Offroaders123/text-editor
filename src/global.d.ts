@@ -33,7 +33,7 @@ declare global {
   var butFontSmaller: HTMLButtonElement;
   var menuInstall: HTMLDivElement;
   var butInstall: HTMLButtonElement;
-  var textEditor: HTMLTextAreaElement;
+  // var textEditor: HTMLTextAreaElement;
   var aDownloadFile: HTMLAnchorElement;
   var filePicker: HTMLInputElement;
   var footer: HTMLDetailsElement;

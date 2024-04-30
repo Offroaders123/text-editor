@@ -1,11 +1,14 @@
 /* @refresh reload */
-import { render } from "solid-js/web";
+import { lazy } from "solid-js";
+import { Suspense, render } from "solid-js/web";
 
 const root = document.querySelector<HTMLDivElement>("#root")!;
 
 render(() => <AppComponent/>, root);
 
 export default function AppComponent() {
+  const TextArea = lazy(() => import("./text-area.js"));
+
   return (
     <>
       <header>
@@ -88,8 +91,9 @@ export default function AppComponent() {
           </div>
         </nav>
       </header>
-      <textarea id="textEditor" autofocus spellcheck={true}
-                aria-label="Text Editor"></textarea>
+      <Suspense>
+        <TextArea/>
+      </Suspense>
 
       <a id="aDownloadFile" download></a>
       <input type="file" id="filePicker"/>

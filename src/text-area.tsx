@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
+
+export default function TextArea() {
+  let textEditor: HTMLTextAreaElement;
+
+  createEffect(() => {
 
   /* Setup the main textarea */
   textEditor.addEventListener('input', () => {
@@ -115,3 +121,16 @@ import { gaEvent } from "./rum.js";
 
   
   // setTimeout(() => { app.setFocus(); console.log("focused"); }, 2000);
+
+  });
+
+  return (
+    <textarea
+      id="textEditor"
+      ref={textEditor!}
+      autofocus
+      spellcheck={true}
+      aria-label="Text Editor"
+    />
+  );
+}
