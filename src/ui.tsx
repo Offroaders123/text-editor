@@ -16,11 +16,6 @@
 
 import { app } from "./app.js";
 
-  const spanAppName = document.getElementById('headerAppName')!;
-  const spanFileName = document.getElementById('headerFileName')!;
-  const modifiedHeader = document.getElementById('modifiedHeader')!;
-  const modifiedFooter = document.getElementById('modifiedFooter')!;
-
   // Setup the before unload listener to prevent accidental loss on navigation.
   window.addEventListener('beforeunload', (e) => {
     const msg = `There are unsaved changes. Are you sure you want to leave?`;
@@ -51,15 +46,15 @@ import { app } from "./app.js";
       app.file.handle = fileHandle;
       app.file.name = fileHandle.name;
       document.title = `${fileHandle.name} - ${app.appName}`;
-      spanFileName.textContent = fileHandle.name;
-      spanAppName.classList.toggle('hidden', false);
+      headerFileName.textContent = fileHandle.name;
+      headerAppName.classList.toggle('hidden', false);
       app.addRecent(fileHandle);
     } else {
       app.file.handle = null;
       app.file.name = fileHandle;
       document.title = app.appName;
-      spanFileName.textContent = app.appName;
-      spanAppName.classList.toggle('hidden', true);
+      headerFileName.textContent = app.appName;
+      headerAppName.classList.toggle('hidden', true);
     }
   };
 

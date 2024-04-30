@@ -16,9 +16,6 @@
 
 import { app } from "./app.js";
 
-  const filePicker = document.getElementById('filePicker') as HTMLInputElement;
-  const aDownloadFile = document.getElementById('aDownloadFile') as HTMLAnchorElement;
-
   /**
    * Uses the <input type="file"> to open a new file
    *

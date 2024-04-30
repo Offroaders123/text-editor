@@ -21,7 +21,6 @@ import { myMenus } from "./menus.js";
 /* global idbKeyval */
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
-  const menuRecent = document.getElementById('menuRecent')!;
   myMenus.setup(menuRecent);
 
   let recentFiles: FileSystemFileHandle[] = [];

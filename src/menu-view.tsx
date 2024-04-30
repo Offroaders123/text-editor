@@ -18,13 +18,7 @@ import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-  const menuView = document.getElementById('menuView')!;
   myMenus.setup(menuView);
-
-  const butWordWrap = document.getElementById('butWordWrap')!;
-  const butMonospace = document.getElementById('butMonospace')!;
-  const butCaptureTabs = document.getElementById('butCaptureTabs')!;
-  const lblTabMovesFocus = document.getElementById('lblTabMovesFocus')!;
 
   butWordWrap.addEventListener('click', () => {
     myMenus.hide(menuView);
@@ -41,12 +35,12 @@ import { gaEvent } from "./rum.js";
     app.toggleCaptureTabs();
   });
 
-  document.getElementById('butFontBigger')!.addEventListener('click', () => {
+  butFontBigger.addEventListener('click', () => {
     myMenus.hide(menuView);
     app.adjustFontSize(+2);
   });
 
-  document.getElementById('butFontSmaller')!.addEventListener('click', () => {
+  butFontSmaller.addEventListener('click', () => {
     myMenus.hide(menuView);
     app.adjustFontSize(-2);
   });

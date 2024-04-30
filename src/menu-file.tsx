@@ -17,30 +17,29 @@
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 
-  const menuFile = document.getElementById('menuFile')!;
   myMenus.setup(menuFile);
 
-  document.getElementById('butNew')!.addEventListener('click', () => {
+  butNew.addEventListener('click', () => {
     myMenus.hide(menuFile);
     app.newFile();
   });
 
-  document.getElementById('butOpen')!.addEventListener('click', () => {
+  butOpen.addEventListener('click', () => {
     myMenus.hide(menuFile);
     app.openFile();
   });
 
-  document.getElementById('butSave')!.addEventListener('click', () => {
+  butSave.addEventListener('click', () => {
     myMenus.hide(menuFile);
     app.saveFile();
   });
 
-  document.getElementById('butSaveAs')!.addEventListener('click', () => {
+  butSaveAs.addEventListener('click', () => {
     myMenus.hide(menuFile);
     app.saveFileAs();
   });
 
-  document.getElementById('butClose')!.addEventListener('click', () => {
+  butClose.addEventListener('click', () => {
     myMenus.hide(menuFile);
     app.quitApp();
   });
