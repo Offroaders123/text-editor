@@ -22,6 +22,11 @@ import { setLblTabMovesFocusHidden } from "./AppComponent.js";
 
 export default function MenuView() {
   let menuView: HTMLDivElement;
+  let butWordWrap: HTMLButtonElement;
+  let butMonospace: HTMLButtonElement;
+  let butCaptureTabs: HTMLButtonElement;
+  let butFontBigger: HTMLButtonElement;
+  let butFontSmaller: HTMLButtonElement;
 
   createEffect(() => {
 
@@ -91,19 +96,19 @@ export default function MenuView() {
           <span class="kbdShortcut">V</span>iew
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butWordWrap" type="button" aria-checked="true" role="menuitemcheckbox">
+        <button id="butWordWrap" ref={butWordWrap!} type="button" aria-checked="true" role="menuitemcheckbox">
           Word Wrap
         </button>
-        <button id="butMonospace" type="button" aria-checked="false" role="menuitemcheckbox">
+        <button id="butMonospace" ref={butMonospace!} type="button" aria-checked="false" role="menuitemcheckbox">
           Monospace Font
         </button>
-        <button id="butCaptureTabs" type="button" aria-checked="true" role="menuitemcheckbox">
+        <button id="butCaptureTabs" ref={butCaptureTabs!} type="button" aria-checked="true" role="menuitemcheckbox">
           Capture Tabs <kbd>^&uparrow;M</kbd>
         </button>
-        <button id="butFontBigger" type="button" role="menuitem">
+        <button id="butFontBigger" ref={butFontBigger!} type="button" role="menuitem">
           Increase Font Size
         </button>
-        <button id="butFontSmaller" type="button" role="menuitem">
+        <button id="butFontSmaller" ref={butFontSmaller!} type="button" role="menuitem">
           Decrease Font Size
         </button>
       </div>

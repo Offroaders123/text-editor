@@ -21,6 +21,9 @@ import { gaEvent } from "./rum.js";
 
 export default function MenuEdit() {
   let menuEdit: HTMLDivElement;
+  let butCut: HTMLButtonElement;
+  let butCopy: HTMLButtonElement;
+  let butPaste: HTMLButtonElement;
 
   createEffect(() => {
 
@@ -60,13 +63,13 @@ export default function MenuEdit() {
           <span class="kbdShortcut">E</span>dit
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butCut" type="button" role="menuitem">
+        <button id="butCut" ref={butCut!} type="button" role="menuitem">
           Cut <kbd>^X</kbd>
         </button>
-        <button id="butCopy" type="button" role="menuitem">
+        <button id="butCopy" ref={butCopy!} type="button" role="menuitem">
           Copy <kbd>^C</kbd>
         </button>
-        <button id="butPaste" type="button" role="menuitem">
+        <button id="butPaste" ref={butPaste!} type="button" role="menuitem">
           Paste <kbd>^V</kbd>
         </button>
       </div>
