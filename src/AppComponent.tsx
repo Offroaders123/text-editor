@@ -13,6 +13,7 @@ export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>
 render(() => <AppComponent/>, root);
 
 export default function AppComponent() {
+  const MenuFile = lazy(() => import("./menu-file.js"));
   const TextArea = lazy(() => import("./text-area.js"));
 
   return (
@@ -23,28 +24,9 @@ export default function AppComponent() {
           <span id="headerAppName" classList={{ hidden: headerAppNameHidden() }}> - Text Editor</span>
         </h1>
         <nav class="menubar">
-          <div id="menuFile" class="menuContainer">
-            <button id="butFile" class="menuTop" aria-label="File" aria-haspopup="true" aria-expanded="false">
-              <span class="kbdShortcut">F</span>ile
-            </button>
-            <div role="menu" class="menuItemContainer hidden">
-              <button id="butNew" type="button" role="menuitem">
-                New <kbd>^N</kbd>
-              </button>
-              <button id="butOpen" type="button" role="menuitem">
-                Open <kbd>^O</kbd>
-              </button>
-              <button id="butSave" type="button" role="menuitem">
-                Save <kbd>^S</kbd>
-              </button>
-              <button id="butSaveAs" type="button" role="menuitem">
-                Save As <kbd>^&uparrow;S</kbd>
-              </button>
-              <button id="butClose" type="button" role="menuitem">
-                Close <kbd>^W</kbd>
-              </button>
-            </div>
-          </div>
+          <Suspense>
+            <MenuFile/>
+          </Suspense>
           <div id="menuRecent" class="menuContainer">
             <button id="butRecent" class="menuTop" aria-label="Recent" aria-haspopup="true" aria-expanded="false">
               <span class="kbdShortcut">R</span>ecent

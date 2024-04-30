@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
+
+export default function MenuFile() {
+  let menuFile: HTMLDivElement;
+
+  createEffect(() => {
 
   myMenus.setup(menuFile);
 
@@ -43,3 +49,31 @@ import { myMenus } from "./menus.js";
     myMenus.hide(menuFile);
     app.quitApp();
   });
+
+  });
+
+  return (
+    <div id="menuFile" ref={menuFile!} class="menuContainer">
+      <button id="butFile" class="menuTop" aria-label="File" aria-haspopup="true" aria-expanded="false">
+        <span class="kbdShortcut">F</span>ile
+      </button>
+      <div role="menu" class="menuItemContainer hidden">
+        <button id="butNew" type="button" role="menuitem">
+          New <kbd>^N</kbd>
+        </button>
+        <button id="butOpen" type="button" role="menuitem">
+          Open <kbd>^O</kbd>
+        </button>
+        <button id="butSave" type="button" role="menuitem">
+          Save <kbd>^S</kbd>
+        </button>
+        <button id="butSaveAs" type="button" role="menuitem">
+          Save As <kbd>^&uparrow;S</kbd>
+        </button>
+        <button id="butClose" type="button" role="menuitem">
+          Close <kbd>^W</kbd>
+        </button>
+      </div>
+    </div>
+  );
+}

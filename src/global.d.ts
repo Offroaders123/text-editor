@@ -9,7 +9,7 @@ declare global {
   // var headerFileName: HTMLSpanElement;
   // var modifiedHeader: HTMLSpanElement;
   // var headerAppName: HTMLSpanElement;
-  var menuFile: HTMLDivElement;
+  // var menuFile: HTMLDivElement;
   var butFile: HTMLButtonElement;
   var butNew: HTMLButtonElement;
   var butOpen: HTMLButtonElement;
