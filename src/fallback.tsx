@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
+
+export default function ADownloadFile() {
+  let aDownloadFile: HTMLAnchorElement;
+  let filePicker: HTMLInputElement;
+
+  createEffect(() => {
 
   /**
    * Uses the <input type="file"> to open a new file
@@ -51,3 +58,13 @@ import { app } from "./app.js";
     aDownloadFile.setAttribute('download', filename);
     aDownloadFile.click();
   };
+
+  });
+
+  return (
+    <>
+      <a id="aDownloadFile" ref={aDownloadFile!} download></a>
+      <input type="file" id="filePicker" ref={filePicker!}/>
+    </>
+  );
+}

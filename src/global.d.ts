@@ -34,8 +34,8 @@ declare global {
   // var menuInstall: HTMLDivElement;
   // var butInstall: HTMLButtonElement;
   // var textEditor: HTMLTextAreaElement;
-  var aDownloadFile: HTMLAnchorElement;
-  var filePicker: HTMLInputElement;
+  // var aDownloadFile: HTMLAnchorElement;
+  // var filePicker: HTMLInputElement;
   var footer: HTMLDetailsElement;
   // var modifiedFooter: HTMLSpanElement;
   var lblLegacyFS: HTMLSpanElement;

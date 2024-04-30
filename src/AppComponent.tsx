@@ -19,6 +19,7 @@ export default function AppComponent() {
   const MenuView = lazy(() => import("./menu-view.js"));
   const MenuInstall = lazy(() => import("./menu-install.js"));
   const TextArea = lazy(() => import("./text-area.js"));
+  const Fallback = lazy(() => import("./fallback.js"));
 
   return (
     <>
@@ -49,8 +50,9 @@ export default function AppComponent() {
         <TextArea/>
       </Suspense>
 
-      <a id="aDownloadFile" download></a>
-      <input type="file" id="filePicker"/>
+      <Suspense>
+        <Fallback/>
+      </Suspense>
 
       <details id="footer" class="footer">
         <summary>About
