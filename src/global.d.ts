@@ -37,7 +37,7 @@ declare global {
   var aDownloadFile: HTMLAnchorElement;
   var filePicker: HTMLInputElement;
   var footer: HTMLDetailsElement;
-  var modifiedFooter: HTMLSpanElement;
+  // var modifiedFooter: HTMLSpanElement;
   var lblLegacyFS: HTMLSpanElement;
   var lblTabMovesFocus: HTMLSpanElement;
   var notSupported: HTMLDivElement;

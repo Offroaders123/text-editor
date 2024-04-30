@@ -7,6 +7,7 @@ const root = document.querySelector<HTMLDivElement>("#root")!;
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
 export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
+export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<boolean>(true);
 
 render(() => <AppComponent/>, root);
 
@@ -105,7 +106,7 @@ export default function AppComponent() {
       <details id="footer" class="footer">
         <summary>About
           <span>
-            <span id="modifiedFooter" class="hidden">*</span>
+            <span id="modifiedFooter" classList={{ hidden: modifiedFooterHidden() }}>*</span>
             <span id="lblLegacyFS" class="hidden footer-label">Legacy Mode</span>
             <span id="lblTabMovesFocus" class="hidden footer-label">Tab Moves Focus</span>
           </span>
