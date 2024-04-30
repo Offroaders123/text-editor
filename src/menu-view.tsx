@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
+
+export default function MenuView() {
+  let menuView: HTMLDivElement;
+
+  createEffect(() => {
 
   myMenus.setup(menuView);
 
@@ -75,3 +81,31 @@ import { gaEvent } from "./rum.js";
     lblTabMovesFocus.classList.toggle('hidden', newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));
   };
+
+  });
+
+  return (
+    <div id="menuView" ref={menuView!} class="menuContainer">
+      <button id="butView" class="menuTop" aria-label="View" aria-haspopup="true" aria-expanded="false">
+          <span class="kbdShortcut">V</span>iew
+      </button>
+      <div role="menu" class="menuItemContainer hidden">
+        <button id="butWordWrap" type="button" aria-checked="true" role="menuitemcheckbox">
+          Word Wrap
+        </button>
+        <button id="butMonospace" type="button" aria-checked="false" role="menuitemcheckbox">
+          Monospace Font
+        </button>
+        <button id="butCaptureTabs" type="button" aria-checked="true" role="menuitemcheckbox">
+          Capture Tabs <kbd>^&uparrow;M</kbd>
+        </button>
+        <button id="butFontBigger" type="button" role="menuitem">
+          Increase Font Size
+        </button>
+        <button id="butFontSmaller" type="button" role="menuitem">
+          Decrease Font Size
+        </button>
+      </div>
+    </div>
+  );
+}

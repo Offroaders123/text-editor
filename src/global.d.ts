@@ -24,7 +24,7 @@ declare global {
   var butCut: HTMLButtonElement;
   var butCopy: HTMLButtonElement;
   var butPaste: HTMLButtonElement;
-  var menuView: HTMLDivElement;
+  // var menuView: HTMLDivElement;
   var butView: HTMLButtonElement;
   var butWordWrap: HTMLButtonElement;
   var butMonospace: HTMLButtonElement;

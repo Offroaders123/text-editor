@@ -16,6 +16,7 @@ export default function AppComponent() {
   const MenuFile = lazy(() => import("./menu-file.js"));
   const MenuRecent = lazy(() => import("./menu-recent.js"));
   const MenuEdit = lazy(() => import("./menu-edit.js"));
+  const MenuView = lazy(() => import("./menu-view.js"));
   const TextArea = lazy(() => import("./text-area.js"));
 
   return (
@@ -35,28 +36,9 @@ export default function AppComponent() {
           <Suspense>
             <MenuEdit/>
           </Suspense>
-          <div id="menuView" class="menuContainer">
-            <button id="butView" class="menuTop" aria-label="View" aria-haspopup="true" aria-expanded="false">
-                <span class="kbdShortcut">V</span>iew
-            </button>
-            <div role="menu" class="menuItemContainer hidden">
-              <button id="butWordWrap" type="button" aria-checked="true" role="menuitemcheckbox">
-                Word Wrap
-              </button>
-              <button id="butMonospace" type="button" aria-checked="false" role="menuitemcheckbox">
-                Monospace Font
-              </button>
-              <button id="butCaptureTabs" type="button" aria-checked="true" role="menuitemcheckbox">
-                Capture Tabs <kbd>^&uparrow;M</kbd>
-              </button>
-              <button id="butFontBigger" type="button" role="menuitem">
-                Increase Font Size
-              </button>
-              <button id="butFontSmaller" type="button" role="menuitem">
-                Decrease Font Size
-              </button>
-            </div>
-          </div>
+          <Suspense>
+            <MenuView/>
+          </Suspense>
           <div id="menuInstall" class="menuContainer">
             <button id="butInstall" aria-label="Install" class="menuTop hidden">
                 <span class="kbdShortcut">I</span>nstall
