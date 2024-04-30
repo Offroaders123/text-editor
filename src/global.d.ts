@@ -40,7 +40,7 @@ declare global {
   // var modifiedFooter: HTMLSpanElement;
   var lblLegacyFS: HTMLSpanElement;
   var lblTabMovesFocus: HTMLSpanElement;
-  var notSupported: HTMLDivElement;
+  // var notSupported: HTMLDivElement;
   var lastUpdated: HTMLElement;
 }
 

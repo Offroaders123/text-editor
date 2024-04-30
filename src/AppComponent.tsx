@@ -8,6 +8,7 @@ export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Ed
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
 export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
 export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<boolean>(true);
+export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>(false);
 
 render(() => <AppComponent/>, root);
 
@@ -111,7 +112,7 @@ export default function AppComponent() {
             <span id="lblTabMovesFocus" class="hidden footer-label">Tab Moves Focus</span>
           </span>
         </summary>
-        <div id="notSupported">{`
+        <div id="notSupported" classList={{ hidden: notSupportedHidden() }}>{`
           The
           `}<a href="https://wicg.github.io/file-system-access/" target="_blank">File System Access API</a>{`
           is `}<b>not</b>{` supported in this browser yet, and Text Editor is running
