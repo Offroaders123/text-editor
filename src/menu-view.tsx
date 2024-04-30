@@ -18,6 +18,7 @@ import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
+import { setLblTabMovesFocusHidden } from "./AppComponent.js";
 
 export default function MenuView() {
   let menuView: HTMLDivElement;
@@ -78,7 +79,7 @@ export default function MenuView() {
     const newVal = !app.options.captureTabs;
     app.options.captureTabs = newVal;
     butCaptureTabs.setAttribute('aria-checked', String(newVal));
-    lblTabMovesFocus.classList.toggle('hidden', newVal);
+    setLblTabMovesFocusHidden(newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));
   };
 
