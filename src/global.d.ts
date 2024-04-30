@@ -13,7 +13,7 @@ declare global {
   // var butFile: HTMLButtonElement;
   // var butNew: HTMLButtonElement;
   // var butOpen: HTMLButtonElement;
-  var butSave: HTMLButtonElement;
+  // var butSave: HTMLButtonElement;
   // var butSaveAs: HTMLButtonElement;
   // var butClose: HTMLButtonElement;
   // var menuRecent: HTMLDivElement;

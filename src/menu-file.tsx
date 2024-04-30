@@ -17,6 +17,7 @@
 import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
+import { butSaveHidden } from "./AppComponent.js";
 
 export default function MenuFile() {
   let menuFile: HTMLDivElement;
@@ -70,7 +71,7 @@ export default function MenuFile() {
         <button id="butOpen" ref={butOpen!} type="button" role="menuitem">
           Open <kbd>^O</kbd>
         </button>
-        <button id="butSave" ref={butSave!} type="button" role="menuitem">
+        <button id="butSave" ref={butSave!} type="button" role="menuitem" classList={{ hidden: butSaveHidden() }}>
           Save <kbd>^S</kbd>
         </button>
         <button id="butSaveAs" ref={butSaveAs!} type="button" role="menuitem">

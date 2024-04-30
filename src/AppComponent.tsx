@@ -6,6 +6,7 @@ const root = document.querySelector<HTMLDivElement>("#root")!;
 
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
+export const [butSaveHidden, setButSaveHidden] = createSignal<boolean>(false);
 export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
 export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<boolean>(true);
 export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>(false);
