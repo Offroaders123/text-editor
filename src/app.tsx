@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { setNotSupportedHidden } from "./AppComponent.jsx";
+import { setLblLegacyFSHidden, setNotSupportedHidden } from "./AppComponent.js";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent } from "./rum.js";
 
@@ -83,7 +83,7 @@ if (app.hasFSAccess) {
   setNotSupportedHidden(true);
   gaEvent('File System APIs', 'FSAccess');
 } else {
-  lblLegacyFS.classList.toggle('hidden', false);
+  setLblLegacyFSHidden(false);
   butSave.classList.toggle('hidden', true);
   gaEvent('File System APIs', 'Legacy');
 }

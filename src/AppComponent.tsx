@@ -9,6 +9,7 @@ export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolea
 export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
 export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<boolean>(true);
 export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>(false);
+export const [lblLegacyFSHidden, setLblLegacyFSHidden] = createSignal<boolean>(true);
 
 render(() => <AppComponent/>, root);
 
@@ -58,7 +59,7 @@ export default function AppComponent() {
         <summary>About
           <span>
             <span id="modifiedFooter" classList={{ hidden: modifiedFooterHidden() }}>*</span>
-            <span id="lblLegacyFS" class="hidden footer-label">Legacy Mode</span>
+            <span id="lblLegacyFS" classList={{ hidden: lblLegacyFSHidden(), "footer-label": true }}>Legacy Mode</span>
             <span id="lblTabMovesFocus" class="hidden footer-label">Tab Moves Focus</span>
           </span>
         </summary>

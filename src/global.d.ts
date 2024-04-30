@@ -38,7 +38,7 @@ declare global {
   // var filePicker: HTMLInputElement;
   var footer: HTMLDetailsElement;
   // var modifiedFooter: HTMLSpanElement;
-  var lblLegacyFS: HTMLSpanElement;
+  // var lblLegacyFS: HTMLSpanElement;
   var lblTabMovesFocus: HTMLSpanElement;
   // var notSupported: HTMLDivElement;
   var lastUpdated: HTMLElement;
