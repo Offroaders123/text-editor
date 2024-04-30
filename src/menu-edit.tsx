@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+import { createEffect } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
+
+export default function MenuEdit() {
+  let menuEdit: HTMLDivElement;
+
+  createEffect(() => {
 
   myMenus.setup(menuEdit);
 
@@ -45,3 +51,25 @@ import { gaEvent } from "./rum.js";
       gaEvent('Error', 'Paste', ex.name);
     }
   });
+
+  });
+
+  return (
+    <div id="menuEdit" ref={menuEdit!} class="menuContainer">
+      <button id="butEdit" class="menuTop" aria-label="Edit" aria-haspopup="true" aria-expanded="false">
+          <span class="kbdShortcut">E</span>dit
+      </button>
+      <div role="menu" class="menuItemContainer hidden">
+        <button id="butCut" type="button" role="menuitem">
+          Cut <kbd>^X</kbd>
+        </button>
+        <button id="butCopy" type="button" role="menuitem">
+          Copy <kbd>^C</kbd>
+        </button>
+        <button id="butPaste" type="button" role="menuitem">
+          Paste <kbd>^V</kbd>
+        </button>
+      </div>
+    </div>
+  );
+}

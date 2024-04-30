@@ -19,7 +19,7 @@ declare global {
   // var menuRecent: HTMLDivElement;
   var butRecent: HTMLButtonElement;
   var recentContainer: HTMLDivElement;
-  var menuEdit: HTMLDivElement;
+  // var menuEdit: HTMLDivElement;
   var butEdit: HTMLButtonElement;
   var butCut: HTMLButtonElement;
   var butCopy: HTMLButtonElement;

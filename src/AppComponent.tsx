@@ -15,6 +15,7 @@ render(() => <AppComponent/>, root);
 export default function AppComponent() {
   const MenuFile = lazy(() => import("./menu-file.js"));
   const MenuRecent = lazy(() => import("./menu-recent.js"));
+  const MenuEdit = lazy(() => import("./menu-edit.js"));
   const TextArea = lazy(() => import("./text-area.js"));
 
   return (
@@ -31,22 +32,9 @@ export default function AppComponent() {
           <Suspense>
             <MenuRecent/>
           </Suspense>
-          <div id="menuEdit" class="menuContainer">
-            <button id="butEdit" class="menuTop" aria-label="Edit" aria-haspopup="true" aria-expanded="false">
-                <span class="kbdShortcut">E</span>dit
-            </button>
-            <div role="menu" class="menuItemContainer hidden">
-              <button id="butCut" type="button" role="menuitem">
-                Cut <kbd>^X</kbd>
-              </button>
-              <button id="butCopy" type="button" role="menuitem">
-                Copy <kbd>^C</kbd>
-              </button>
-              <button id="butPaste" type="button" role="menuitem">
-                Paste <kbd>^V</kbd>
-              </button>
-            </div>
-          </div>
+          <Suspense>
+            <MenuEdit/>
+          </Suspense>
           <div id="menuView" class="menuContainer">
             <button id="butView" class="menuTop" aria-label="View" aria-haspopup="true" aria-expanded="false">
                 <span class="kbdShortcut">V</span>iew
