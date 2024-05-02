@@ -19,7 +19,7 @@ import { createSignal } from "solid-js";
 import { render } from "solid-js/web";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { clear, get, set } from "./idb-keyval-iife.js";
-import { gaEvent } from "./rum.js";
+import { gaEvent, gaTiming } from "./rum.js";
 import Header from "./Header.js";
 import TextArea from "./text-area.js";
 import Fallback from "./fallback.js";
@@ -322,6 +322,72 @@ window.addEventListener('load', () => {
     navigator.serviceWorker
         .register('./service-worker.js');
   }
+});
+
+
+/**
+ * Analytics for window type: browser, standalone, standalone-ios
+ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    let windowStyle = 'browser';
+    if (window.navigator.standalone === true) {
+      windowStyle = 'standalone-ios';
+    } else if (matchMedia('(display-mode: standalone)').matches === true) {
+      windowStyle = 'standalone';
+    }
+    gaEvent('Window Style', windowStyle, null, null, true);
+  }, 3100);
+});
+
+/**
+ * Performance analytics: load & paint
+ */
+window.addEventListener('load', () => {
+  if ('performance' in window) {
+    const pNow = Math.round(performance.now());
+    gaTiming('Start', 'window-load', pNow);
+    setTimeout(() => {
+      const paintMetrics = performance.getEntriesByType('paint');
+      if (paintMetrics && paintMetrics.length > 0) {
+        paintMetrics.forEach((entry) => {
+          const name = entry.name;
+          const time = Math.round(entry.startTime + entry.duration);
+          gaTiming('Start', name, time);
+        });
+      }
+    }, 3000);
+  }
+});
+
+/**
+ * Performance analytics: GA PageView, DOMContentLoaded
+ */
+window.addEventListener('DOMContentLoaded', () => {
+  if ('performance' in window) {
+    const pNow = Math.round(performance.now());
+    gaTiming('Start', 'dom-content-loaded', pNow);
+  }
+  if (window.ga) {
+    window.ga('send', 'pageview', '/');
+    // eslint-disable-next-line no-console
+    console.log('👀', 'pageview', '/');
+  }
+});
+
+/**
+ * Log the app version.
+ */
+window.addEventListener('load', () => {
+  gaEvent('App Version', '[[VERSION]]', null, null, true);
+});
+
+/**
+ * Log page visibility.
+ */
+document.addEventListener('visibilitychange', () => {
+  const state = document.hidden === true ? 'hidden' : 'visible';
+  gaEvent('Page Visibility', state, null, null, true);
 });
 
 /**
