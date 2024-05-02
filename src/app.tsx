@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 
-import { createSignal, lazy } from "solid-js";
-import { Suspense, render } from "solid-js/web";
+import { createSignal } from "solid-js";
+import { render } from "solid-js/web";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { clear, get, set } from "./idb-keyval-iife.js";
 import { gaEvent } from "./rum.js";
+import Header from "./Header.js";
+import TextArea from "./text-area.js";
+import Fallback from "./fallback.js";
+import Footer from "./Footer.js";
 
 import type { Signal } from "solid-js";
 
@@ -544,27 +548,14 @@ window.addEventListener('beforeunload', (e) => {
 });
 
 export default function AppComponent() {
-  const Header = lazy(() => import("./Header.js"));
-  const TextArea = lazy(() => import("./text-area.js"));
-  const Fallback = lazy(() => import("./fallback.js"));
-  const Footer = lazy(() => import("./Footer.js"));
-
   return (
     <>
-      <Suspense>
-        <Header/>
-      </Suspense>
-      <Suspense>
-        <TextArea/>
-      </Suspense>
+      <Header/>
+      <TextArea/>
 
-      <Suspense>
-        <Fallback/>
-      </Suspense>
+      <Fallback/>
 
-      <Suspense>
-        <Footer/>
-      </Suspense>
+      <Footer/>
     </>
   );
 }

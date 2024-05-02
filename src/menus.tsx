@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { app } from "./app.js";
+const app = import("./app.js").then(app => app.app);
 
 // eslint-disable-next-line no-redeclare
 export const myMenus = {
@@ -33,7 +33,7 @@ setup(container: HTMLElement): void {
   container.addEventListener('keydown', (e) => {
     if (e.keyCode === 27) {
       myMenus.hideAll();
-      app.setFocus();
+      app.then(app => app.setFocus());
       return;
     }
     if (e.keyCode === 40) {
@@ -58,8 +58,8 @@ setup(container: HTMLElement): void {
  *
  * @param button Toggle button to show/hide menu.
  */
-addKeyboardShortcut(button: HTMLButtonElement): void {
-  if (app.isMac) {
+async addKeyboardShortcut(button: HTMLButtonElement): Promise<void> {
+  if ((await app).isMac) {
     // Keyboard shortcuts aren't available on mac.
     return;
   }
@@ -118,7 +118,7 @@ show(menuContainer: Element): void {
   const firstButton = panel.querySelector('button');
   if (!firstButton) {
     myMenus.hideAll();
-    app.setFocus();
+    app.then(app => app.setFocus());
     return;
   }
   firstButton.focus();
@@ -177,6 +177,8 @@ _toggle(button: Element): void {
 
 };
 
+app.then(app => {
+
 /* Show shortcuts on menu items when ALT key is pressed, non-Mac only */
 if (!app.isMac) {
   window.addEventListener('keydown', (e) => {
@@ -190,3 +192,5 @@ if (!app.isMac) {
     }
   });
 }
+
+});

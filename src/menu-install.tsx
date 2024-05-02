@@ -1,13 +1,9 @@
-import { Suspense, lazy } from "solid-js";
+import ButInstall from "./app-install.js";
 
 export default function MenuInstall() {
-  const ButInstall = lazy(() => import("./app-install.js"));
-
   return (
     <div id="menuInstall" class="menuContainer">
-      <Suspense>
-        <ButInstall/>
-      </Suspense>
+      <ButInstall/>
     </div>
   );
 }

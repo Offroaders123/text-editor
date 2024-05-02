@@ -51,9 +51,9 @@ const [hidden, setHidden] = createSignal<boolean>(true);
 export default function ButInstall() {
   let butInstall: HTMLButtonElement;
 
-  createEffect(() => {
+  createEffect(async () => {
 
-  myMenus.addKeyboardShortcut(butInstall);
+  await myMenus.addKeyboardShortcut(butInstall);
 
   });
 
