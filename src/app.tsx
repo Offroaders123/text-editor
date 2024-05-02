@@ -130,6 +130,34 @@ export const app = {
     aDownloadFile()!.setAttribute('download', filename);
     aDownloadFile()!.click();
   },
+
+  /**
+   * Toggle word wrap
+   */
+  toggleWordWrap: (): void => {
+    const newVal = document.body.classList.toggle('wordwrap');
+    app.options.wordWrap[1](newVal);
+    gaEvent('Options', 'Word Wrap', newVal ? 'true' : 'false');
+  },
+
+  /**
+   * Toggle Monospace
+   */
+  toggleMonospace: (): void => {
+    const newVal = document.body.classList.toggle('monospace');
+    app.options.monoSpace[1](newVal);
+    gaEvent('Options', 'Font Face', newVal ? 'monospace' : 'normal');
+  },
+
+  /**
+   * Toggles the capture tab functionality
+   */
+  toggleCaptureTabs: (): void => {
+    const newVal = !app.options.captureTabs[0]();
+    app.options.captureTabs[1](newVal);
+    setLblTabMovesFocusHidden(newVal);
+    gaEvent('Options', 'Capture Tabs', String(newVal));
+  },
 } as App;
 
 // Verify the APIs we need are supported, show a polite warning if not.

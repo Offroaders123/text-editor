@@ -15,9 +15,8 @@
  */
 
 import { createEffect } from "solid-js";
-import { app, setLblTabMovesFocusHidden } from "./app.js";
+import { app } from "./app.js";
 import { myMenus } from "./menus.js";
-import { gaEvent } from "./rum.js";
 
 export default function MenuView() {
   let menuView: HTMLDivElement;
@@ -25,34 +24,6 @@ export default function MenuView() {
   createEffect(() => {
 
   myMenus.setup(menuView);
-
-  /**
-   * Toggle word wrap
-   */
-  app.toggleWordWrap = (): void => {
-    const newVal = document.body.classList.toggle('wordwrap');
-    app.options.wordWrap[1](newVal);
-    gaEvent('Options', 'Word Wrap', newVal ? 'true' : 'false');
-  };
-
-  /**
-   * Toggle Monospace
-   */
-  app.toggleMonospace = (): void => {
-    const newVal = document.body.classList.toggle('monospace');
-    app.options.monoSpace[1](newVal);
-    gaEvent('Options', 'Font Face', newVal ? 'monospace' : 'normal');
-  };
-
-  /**
-   * Toggles the capture tab functionality
-   */
-  app.toggleCaptureTabs = (): void => {
-    const newVal = !app.options.captureTabs[0]();
-    app.options.captureTabs[1](newVal);
-    setLblTabMovesFocusHidden(newVal);
-    gaEvent('Options', 'Capture Tabs', String(newVal));
-  };
 
   });
 
