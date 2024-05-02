@@ -20,63 +20,47 @@ import { myMenus } from "./menus.js";
 
 export default function MenuFile() {
   let menuFile: HTMLDivElement;
-  let butFile: HTMLButtonElement;
-  let butNew: HTMLButtonElement;
-  let butOpen: HTMLButtonElement;
-  let butSave: HTMLButtonElement;
-  let butSaveAs: HTMLButtonElement;
-  let butClose: HTMLButtonElement;
 
   createEffect(() => {
 
   myMenus.setup(menuFile);
 
-  butNew.addEventListener('click', () => {
-    myMenus.hide(menuFile);
-    app.newFile();
-  });
-
-  butOpen.addEventListener('click', () => {
-    myMenus.hide(menuFile);
-    app.openFile();
-  });
-
-  butSave.addEventListener('click', () => {
-    myMenus.hide(menuFile);
-    app.saveFile();
-  });
-
-  butSaveAs.addEventListener('click', () => {
-    myMenus.hide(menuFile);
-    app.saveFileAs();
-  });
-
-  butClose.addEventListener('click', () => {
-    myMenus.hide(menuFile);
-    app.quitApp();
-  });
-
   });
 
   return (
     <div id="menuFile" ref={menuFile!} class="menuContainer">
-      <button id="butFile" ref={butFile!} class="menuTop" aria-label="File" aria-haspopup="true" aria-expanded="false">
+      <button id="butFile" class="menuTop" aria-label="File" aria-haspopup="true" aria-expanded="false">
         <span class="kbdShortcut">F</span>ile
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butNew" ref={butNew!} type="button" role="menuitem">
+        <button id="butNew" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuFile);
+          app.newFile();
+        }}>
           New <kbd>^N</kbd>
         </button>
-        <button id="butOpen" ref={butOpen!} type="button" role="menuitem">
+        <button id="butOpen" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuFile);
+          app.openFile();
+        }}>
           Open <kbd>^O</kbd>
         </button>
-        <button id="butSave" ref={butSave!} type="button" role="menuitem" classList={{ hidden: butSaveHidden() }}>
+        <button id="butSave" type="button" role="menuitem" classList={{ hidden: butSaveHidden() }} onclick={() => {
+          myMenus.hide(menuFile);
+          app.saveFile();
+        }}>
           Save <kbd>^S</kbd>
         </button>
-        <button id="butSaveAs" ref={butSaveAs!} type="button" role="menuitem">
+        <button id="butSaveAs" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuFile);
+          app.saveFileAs();
+        }}>
           Save As <kbd>^&uparrow;S</kbd>
         </button>
-        <button id="butClose" ref={butClose!} type="button" role="menuitem">
+        <button id="butClose" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuFile);
+          app.quitApp();
+        }}>
           Close <kbd>^W</kbd>
         </button>
       </div>
