@@ -14,39 +14,10 @@
  * limitations under the License.
  */
 
-import { createEffect, createSignal } from "solid-js";
-import { app } from "./app.js";
+import { createEffect } from "solid-js";
+import { app, installDisabled, installHidden, setInstallDisabled } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
-
-const [disabled, setDisabled] = createSignal<boolean>(false);
-const [hidden, setHidden] = createSignal<boolean>(true);
-
-  /**
-   * Track successful app installs
-   */
-  window.addEventListener('appinstalled', () => {
-    gaEvent('Install', 'installed');
-  });
-
-  /**
-   * Listen for 'beforeinstallprompt' event, and update the UI to indicate
-   * text-editor can be installed.
-   */
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Don't show the mini-info bar
-    e.preventDefault();
-
-    // Log that install is available.
-    gaEvent('Install', 'available');
-
-    // Save the deferred prompt
-    app.installPrompt = e;
-
-    // Show the install button
-    setDisabled(false);
-    setHidden(false);
-  });
 
 export default function ButInstall() {
   let butInstall: HTMLButtonElement;
@@ -58,8 +29,8 @@ export default function ButInstall() {
   });
 
   return (
-    <button id="butInstall" ref={butInstall!} aria-label="Install" classList={{ menuTop: true, hidden: hidden() }} disabled={disabled()} onclick={() => {
-      setDisabled(true);
+    <button id="butInstall" ref={butInstall!} aria-label="Install" classList={{ menuTop: true, hidden: installHidden() }} disabled={installDisabled()} onclick={() => {
+      setInstallDisabled(true);
       app.installPrompt.prompt();
       gaEvent('Install', 'clicked');
     }}>

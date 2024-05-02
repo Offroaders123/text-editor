@@ -37,6 +37,8 @@ export const [textEditor, setTextEditor] = createSignal<HTMLTextAreaElement | nu
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
 export const [butSaveHidden, setButSaveHidden] = createSignal<boolean>(false);
+export const [installDisabled, setInstallDisabled] = createSignal<boolean>(false);
+export const [installHidden, setInstallHidden] = createSignal<boolean>(true);
 export const [modifiedHeaderHidden, setModifiedHeaderHidden] = createSignal<boolean>(true);
 export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<boolean>(true);
 export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>(false);
@@ -314,6 +316,32 @@ export const app = {
     setModifiedFooterHidden(hidden);
   },
 } as App;
+
+/**
+ * Track successful app installs
+ */
+window.addEventListener('appinstalled', () => {
+  gaEvent('Install', 'installed');
+});
+
+/**
+ * Listen for 'beforeinstallprompt' event, and update the UI to indicate
+ * text-editor can be installed.
+ */
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Don't show the mini-info bar
+  e.preventDefault();
+
+  // Log that install is available.
+  gaEvent('Install', 'available');
+
+  // Save the deferred prompt
+  app.installPrompt = e;
+
+  // Show the install button
+  setInstallDisabled(false);
+  setInstallHidden(false);
+});
 
 // Verify the APIs we need are supported, show a polite warning if not.
 if (app.hasFSAccess) {
