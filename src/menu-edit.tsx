@@ -21,39 +21,10 @@ import { gaEvent } from "./rum.js";
 
 export default function MenuEdit() {
   let menuEdit: HTMLDivElement;
-  let butCut: HTMLButtonElement;
-  let butCopy: HTMLButtonElement;
-  let butPaste: HTMLButtonElement;
 
   createEffect(() => {
 
   myMenus.setup(menuEdit);
-
-  butCut.addEventListener('click', () => {
-    myMenus.hide(menuEdit);
-    document.execCommand('cut');
-    gaEvent('Edit', 'Cut');
-  });
-
-  butCopy.addEventListener('click', () => {
-    myMenus.hide(menuEdit);
-    document.execCommand('copy');
-    gaEvent('Edit', 'Copy');
-  });
-
-  butPaste.addEventListener('click', async () => {
-    myMenus.hide(menuEdit);
-    try {
-      const contents = await navigator.clipboard.readText();
-      app.insertIntoDoc(contents);
-      app.setModified(true);
-      app.setFocus();
-      gaEvent('Edit', 'Paste');
-    } catch (ex: any) {
-      console.error('Unable to paste', ex);
-      gaEvent('Error', 'Paste', ex.name);
-    }
-  });
 
   });
 
@@ -63,13 +34,33 @@ export default function MenuEdit() {
           <span class="kbdShortcut">E</span>dit
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butCut" ref={butCut!} type="button" role="menuitem">
+        <button id="butCut" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuEdit);
+          document.execCommand('cut');
+          gaEvent('Edit', 'Cut');
+        }}>
           Cut <kbd>^X</kbd>
         </button>
-        <button id="butCopy" ref={butCopy!} type="button" role="menuitem">
+        <button id="butCopy" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuEdit);
+          document.execCommand('copy');
+          gaEvent('Edit', 'Copy');
+        }}>
           Copy <kbd>^C</kbd>
         </button>
-        <button id="butPaste" ref={butPaste!} type="button" role="menuitem">
+        <button id="butPaste" type="button" role="menuitem" onclick={async () => {
+          myMenus.hide(menuEdit);
+          try {
+            const contents = await navigator.clipboard.readText();
+            app.insertIntoDoc(contents);
+            app.setModified(true);
+            app.setFocus();
+            gaEvent('Edit', 'Paste');
+          } catch (ex: any) {
+            console.error('Unable to paste', ex);
+            gaEvent('Error', 'Paste', ex.name);
+          }
+        }}>
           Paste <kbd>^V</kbd>
         </button>
       </div>
