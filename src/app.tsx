@@ -196,6 +196,71 @@ export const app = {
     setLblTabMovesFocusHidden(newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));
   },
+
+  /**
+   * Sets the text of the editor to the specified value
+   */
+  setText: (val: string): void => {
+    val = val || '';
+    textEditor()!.value = val;
+  },
+
+  /**
+   * Gets the text from the editor
+   */
+  getText: (): string => {
+    return textEditor()!.value;
+  },
+
+  /**
+   * Inserts a string into the editor.
+   *
+   * @param contents Contents to insert into the document.
+   */
+  insertIntoDoc: (contents: string): void => {
+    // Find the current cursor position
+    const startPos = textEditor()!.selectionStart;
+    const endPos = textEditor()!.selectionEnd;
+    // Get the current contents of the editor
+    const before = textEditor()!.value;
+    // Get everything to the left of the start of the selection
+    const left = before.substring(0, startPos);
+    // Get everything to the right of the start of the selection
+    const right = before.substring(endPos);
+    // Concatenate the new contents.
+    textEditor()!.value = left + contents + right;
+    // Move the cursor to the end of the inserted content.
+    const newPos = startPos + contents.length;
+    textEditor()!.selectionStart = newPos;
+    textEditor()!.selectionEnd = newPos;
+    app.setModified(true);
+  },
+
+  /**
+   * Adjust the font size of the textarea up or down by the specified amount.
+   *
+   * @param val Number of pixels to adjust font size by (eg: +2, -2).
+   */
+  adjustFontSize: (val: number): void => {
+    const newFontSize = app.options.fontSize + val;
+    if (newFontSize >= 2) {
+      textEditor()!.style.fontSize = `${newFontSize}px`;
+      app.options.fontSize = newFontSize;
+    }
+    gaEvent('Options', 'Font Size', null, newFontSize);
+  },
+
+  /**
+   * Moves focus to the text area, and potentially cursor to position zero.
+   */
+  setFocus: (startAtTop: boolean): void => {
+    if (startAtTop) {
+      textEditor()!.selectionStart = 0;
+      textEditor()!.selectionEnd = 0;
+      textEditor()!.scrollTo(0, 0);
+    }
+    textEditor()!.focus();
+  },
 } as App;
 
 // Verify the APIs we need are supported, show a polite warning if not.
@@ -408,6 +473,18 @@ render(() => <AppComponent/>, root);
 
 setRecentFiles(await get('recentFiles') || []);
 refreshRecents();
+
+/* Initialize the textarea, set focus & font size */
+window.addEventListener('DOMContentLoaded', () => {
+  textEditor()!.style.fontSize = `${app.options.fontSize}px`;
+  /* Should I remove 'autofocus'? Chrome is notifying in the console that it gets overridden
+      since an element in the DOM is already focused (I think `setFocus()` already gets called
+      on the text editor), since this is now loaded with JSX */
+  /* "Autofocus processing was blocked because a document already has a focused element." */
+  // app.setFocus();
+});
+
+// setTimeout(() => { app.setFocus(); console.log("focused"); }, 2000);
 
 export default function AppComponent() {
   const Header = lazy(() => import("./Header.js"));
