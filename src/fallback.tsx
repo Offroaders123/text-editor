@@ -15,50 +15,15 @@
  */
 
 import { createEffect } from "solid-js";
-import { app } from "./app.js";
+import { setADownloadFile, setFilePicker } from "./app.js";
 
 export default function ADownloadFile() {
   let aDownloadFile: HTMLAnchorElement;
   let filePicker: HTMLInputElement;
 
   createEffect(() => {
-
-  /**
-   * Uses the <input type="file"> to open a new file
-   *
-   * @returns File selected by the user.
-   */
-  app.getFileLegacy = (): Promise<File> => {
-    return new Promise((resolve, reject) => {
-      filePicker.onchange = () => {
-        const file = filePicker.files![0];
-        if (file) {
-          resolve(file);
-          return;
-        }
-        reject(new Error('AbortError'));
-      };
-      filePicker.click();
-    });
-  };
-
-  /**
-   * Saves a file by creating a downloadable instance, and clicking on the
-   * download link.
-   *
-   * @param filename Filename to save the file as.
-   * @param contents Contents of the file to save.
-   */
-  // function saveAsLegacy(filename, contents) {
-  app.saveAsLegacy = (filename: string, contents: string): void => {
-    filename = filename || 'Untitled.txt';
-    const opts = {type: 'text/plain'};
-    const file = new File([contents], '', opts);
-    aDownloadFile.href = window.URL.createObjectURL(file);
-    aDownloadFile.setAttribute('download', filename);
-    aDownloadFile.click();
-  };
-
+    setADownloadFile(aDownloadFile);
+    setFilePicker(filePicker);
   });
 
   return (

@@ -22,6 +22,9 @@ import { gaEvent } from "./rum.js";
 
 const root = document.querySelector<HTMLDivElement>("#root")!;
 
+export const [aDownloadFile, setADownloadFile] = createSignal<HTMLAnchorElement | null>(null);
+export const [filePicker, setFilePicker] = createSignal<HTMLInputElement | null>(null);
+
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
 export const [butSaveHidden, setButSaveHidden] = createSignal<boolean>(false);
@@ -89,6 +92,42 @@ export const app = {
   hasFSAccess: 'chooseFileSystemEntries' in window ||
                'showOpenFilePicker' in window,
   isMac: navigator.userAgent.includes('Mac OS X'),
+
+  /**
+   * Uses the <input type="file"> to open a new file
+   *
+   * @returns File selected by the user.
+   */
+  getFileLegacy: (): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      filePicker()!.onchange = () => {
+        const file = filePicker()!.files![0];
+        if (file) {
+          resolve(file);
+          return;
+        }
+        reject(new Error('AbortError'));
+      };
+      filePicker()!.click();
+    });
+  },
+
+  /**
+   * Saves a file by creating a downloadable instance, and clicking on the
+   * download link.
+   *
+   * @param filename Filename to save the file as.
+   * @param contents Contents of the file to save.
+   */
+  // function saveAsLegacy(filename, contents) {
+  saveAsLegacy: (filename: string, contents: string): void => {
+    filename = filename || 'Untitled.txt';
+    const opts = {type: 'text/plain'};
+    const file = new File([contents], '', opts);
+    aDownloadFile()!.href = window.URL.createObjectURL(file);
+    aDownloadFile()!.setAttribute('download', filename);
+    aDownloadFile()!.click();
+  },
 } as App;
 
 // Verify the APIs we need are supported, show a polite warning if not.
