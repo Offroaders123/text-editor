@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-import { createEffect } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { app } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
-export default function ButInstall() {
-  let butInstall: HTMLButtonElement;
-
-  createEffect(() => {
+const [disabled, setDisabled] = createSignal<boolean>(false);
+const [hidden, setHidden] = createSignal<boolean>(true);
 
   /**
    * Track successful app installs
@@ -46,23 +44,25 @@ export default function ButInstall() {
     app.installPrompt = e;
 
     // Show the install button
-    butInstall.removeAttribute('disabled');
-    butInstall.classList.remove('hidden');
+    setDisabled(false);
+    setHidden(false);
   });
 
-  // Handle the install button click
-  butInstall.addEventListener('click', () => {
-    butInstall.setAttribute('disabled', String(true));
-    app.installPrompt.prompt();
-    gaEvent('Install', 'clicked');
-  });
+export default function ButInstall() {
+  let butInstall: HTMLButtonElement;
+
+  createEffect(() => {
 
   myMenus.addKeyboardShortcut(butInstall);
 
   });
 
   return (
-    <button id="butInstall" ref={butInstall!} aria-label="Install" class="menuTop hidden">
+    <button id="butInstall" ref={butInstall!} aria-label="Install" classList={{ menuTop: true, hidden: hidden() }} disabled={disabled()} onclick={() => {
+      setDisabled(true);
+      app.installPrompt.prompt();
+      gaEvent('Install', 'clicked');
+    }}>
         <span class="kbdShortcut">I</span>nstall
     </button>
     );
