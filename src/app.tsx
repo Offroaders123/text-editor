@@ -26,6 +26,7 @@ const root = document.querySelector<HTMLDivElement>("#root")!;
 
 export const [aDownloadFile, setADownloadFile] = createSignal<HTMLAnchorElement | null>(null);
 export const [filePicker, setFilePicker] = createSignal<HTMLInputElement | null>(null);
+export const [menuRecent, setMenuRecent] = createSignal<HTMLDivElement | null>(null);
 
 export const [headerFileName, setHeaderFileName] = createSignal<string>("Text Editor");
 export const [headerAppNameHidden, setHeaderAppNameHidden] = createSignal<boolean>(true);
@@ -35,6 +36,7 @@ export const [modifiedFooterHidden, setModifiedFooterHidden] = createSignal<bool
 export const [notSupportedHidden, setNotSupportedHidden] = createSignal<boolean>(false);
 export const [lblLegacyFSHidden, setLblLegacyFSHidden] = createSignal<boolean>(true);
 export const [lblTabMovesFocusHidden, setLblTabMovesFocusHidden] = createSignal<boolean>(true);
+export const [recentFiles, setRecentFiles] = createSignal<FileSystemFileHandle[]>([]);
 
 export interface App {
   appName: string;
