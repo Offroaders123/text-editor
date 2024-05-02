@@ -15,8 +15,7 @@
  */
 
 import { createEffect } from "solid-js";
-import { app, menuRecent, recentFiles, setMenuRecent, setRecentFiles } from "./app.js";
-import { set, clear, get } from "./idb-keyval-iife.js";
+import { menuRecent, setMenuRecent } from "./app.js";
 import { myMenus } from "./menus.js";
 
 /* global idbKeyval */
@@ -26,90 +25,6 @@ export default function MenuRecent() {
   createEffect(() => {
 
   myMenus.setup(menuRecent()!);
-
-  /**
-   * Adds a new item to the list of recent files.
-   *
-   * @param fileHandle File handle to add.
-   */
-  app.addRecent = async function(fileHandle: FileSystemFileHandle): Promise<void> {
-    // If isSameEntry isn't available, we can't store the file handle
-    if (!fileHandle.isSameEntry) {
-      console.warn('Saving of recents is unavailable.');
-      return;
-    }
-
-    // Loop through the list of recent files and make sure the file we're
-    // adding isn't already there. This is gross.
-    const inList = await Promise.all(recentFiles().map((f) => {
-      return fileHandle.isSameEntry(f);
-    }));
-    if (inList.some((val) => val)) {
-      return;
-    }
-
-    // Add the new file handle to the top of the list, and remove any old ones.
-    setRecentFiles(recentFiles => [fileHandle, ...recentFiles]);
-    if (recentFiles.length > 5) {
-      setRecentFiles(recentFiles => recentFiles.slice(0, -1));
-    }
-
-    // Update the list of menu items.
-    refreshRecents();
-
-    // Save the list of recent files.
-    set('recentFiles', recentFiles());
-  };
-
-  /**
-   * Refresh the list of files in the menu.
-   */
-  async function refreshRecents(): Promise<void> {
-    // Clear the existing menu.
-    myMenus.clearMenu(menuRecent()!);
-
-    // If there are no recents, don't draw anything.
-    if (recentFiles().length === 0) {
-      return;
-    }
-
-    // Loop through the list of recent files and add a button for each.
-    recentFiles().forEach((recent) => {
-      const butt = myMenus.createButton(recent.name);
-      butt.addEventListener('click', () => {
-        myMenus.hide(menuRecent()!);
-        app.openFile(recent);
-      });
-      myMenus.addElement(menuRecent()!, butt);
-    });
-
-    // Add a button to clear the list of recent items.
-    addClearButton();
-  }
-
-  /**
-   * Adds a clear button to the menu that clears the list of most recent items.
-   */
-  function addClearButton(): void {
-    const clearButt = myMenus.createButton('Clear');
-    clearButt.addEventListener('click', () => {
-      myMenus.clearMenu(menuRecent()!);
-      setRecentFiles([]);
-      clear();
-      app.setFocus();
-    });
-    myMenus.addElement(menuRecent()!, clearButt);
-  }
-
-  /**
-   * Initializes the recents menu.
-   */
-  async function init(): Promise<void> {
-    setRecentFiles(await get('recentFiles') || []);
-    refreshRecents();
-  }
-
-  init();
 
   });
 

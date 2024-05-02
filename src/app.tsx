@@ -18,6 +18,7 @@
 import { createSignal, lazy } from "solid-js";
 import { Suspense, render } from "solid-js/web";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
+import { clear, get, set } from "./idb-keyval-iife.js";
 import { gaEvent } from "./rum.js";
 
 import type { Signal } from "solid-js";
@@ -134,6 +135,40 @@ export const app = {
   },
 
   /**
+   * Adds a new item to the list of recent files.
+   *
+   * @param fileHandle File handle to add.
+   */
+  addRecent: async function(fileHandle: FileSystemFileHandle): Promise<void> {
+    // If isSameEntry isn't available, we can't store the file handle
+    if (!fileHandle.isSameEntry) {
+      console.warn('Saving of recents is unavailable.');
+      return;
+    }
+
+    // Loop through the list of recent files and make sure the file we're
+    // adding isn't already there. This is gross.
+    const inList = await Promise.all(recentFiles().map((f) => {
+      return fileHandle.isSameEntry(f);
+    }));
+    if (inList.some((val) => val)) {
+      return;
+    }
+
+    // Add the new file handle to the top of the list, and remove any old ones.
+    setRecentFiles(recentFiles => [fileHandle, ...recentFiles]);
+    if (recentFiles.length > 5) {
+      setRecentFiles(recentFiles => recentFiles.slice(0, -1));
+    }
+
+    // Update the list of menu items.
+    refreshRecents();
+
+    // Save the list of recent files.
+    set('recentFiles', recentFiles());
+  },
+
+  /**
    * Toggle word wrap
    */
   toggleWordWrap: (): void => {
@@ -185,7 +220,6 @@ app.newFile = (): void => {
   app.setFocus(true);
   gaEvent('FileAction', 'New');
 };
-
 
 /**
  * Opens a file for reading.
@@ -327,7 +361,52 @@ app.quitApp = (): void => {
   window.close();
 };
 
+  /**
+   * Refresh the list of files in the menu.
+   */
+  export async function refreshRecents(): Promise<void> {
+    const { myMenus } = await import("./menus.js");
+
+    // Clear the existing menu.
+    myMenus.clearMenu(menuRecent()!);
+
+    // If there are no recents, don't draw anything.
+    if (recentFiles().length === 0) {
+      return;
+    }
+
+    // Loop through the list of recent files and add a button for each.
+    recentFiles().forEach((recent) => {
+      const butt = myMenus.createButton(recent.name);
+      butt.addEventListener('click', () => {
+        myMenus.hide(menuRecent()!);
+        app.openFile(recent);
+      });
+      myMenus.addElement(menuRecent()!, butt);
+    });
+
+    // Add a button to clear the list of recent items.
+    addClearButton(myMenus);
+  }
+
+  /**
+   * Adds a clear button to the menu that clears the list of most recent items.
+   */
+  function addClearButton(myMenus: typeof import("./menus.js").myMenus): void {
+    const clearButt = myMenus.createButton('Clear');
+    clearButt.addEventListener('click', () => {
+      myMenus.clearMenu(menuRecent()!);
+      setRecentFiles([]);
+      clear();
+      app.setFocus();
+    });
+    myMenus.addElement(menuRecent()!, clearButt);
+  }
+
 render(() => <AppComponent/>, root);
+
+setRecentFiles(await get('recentFiles') || []);
+refreshRecents();
 
 export default function AppComponent() {
   const Header = lazy(() => import("./Header.js"));
