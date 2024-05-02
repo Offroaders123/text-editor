@@ -48,7 +48,7 @@ export default function MenuView() {
    * Toggles the capture tab functionality
    */
   app.toggleCaptureTabs = (): void => {
-    const newVal = !app.options.captureTabs;
+    const newVal = !app.options.captureTabs[0]();
     app.options.captureTabs[1](newVal);
     setLblTabMovesFocusHidden(newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));

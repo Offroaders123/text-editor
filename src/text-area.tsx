@@ -36,7 +36,7 @@ export default function TextArea() {
 
   /* Listen for tab key */
   textEditor.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab' && app.options.captureTabs) {
+    if (e.key === 'Tab' && app.options.captureTabs[0]() === true) {
       e.preventDefault();
       app.insertIntoDoc('\t');
     }
