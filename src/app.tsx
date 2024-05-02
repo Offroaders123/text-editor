@@ -261,6 +261,54 @@ export const app = {
     }
     textEditor()!.focus();
   },
+
+  /**
+   * Confirms user does not want to save before closing the current doc.
+   * @returns True if it's OK to discard.
+   */
+  confirmDiscard: (): boolean => {
+    if (!app.file.isModified) {
+      return true;
+    }
+    const confirmMsg = 'Discard changes? All changes will be lost.';
+    return confirm(confirmMsg);
+  },
+
+  /**
+   * Updates the UI with the current file name.
+   * @param fileHandle Filename to display in header.
+   */
+  setFile: (fileHandle: string | FileSystemFileHandle): void => {
+    if (typeof fileHandle !== "string" && "name" in fileHandle) {
+      app.file.handle = fileHandle;
+      app.file.name = fileHandle.name;
+      document.title = `${fileHandle.name} - ${app.appName}`;
+      setHeaderFileName(fileHandle.name);
+      setHeaderAppNameHidden(false);
+      app.addRecent(fileHandle);
+    } else {
+      app.file.handle = null;
+      app.file.name = fileHandle;
+      document.title = app.appName;
+      setHeaderFileName(app.appName);
+      setHeaderAppNameHidden(true);
+    }
+  },
+
+  /**
+   * Updates the UI if the file has been modified.
+   * @param val True if the file has been modified.
+   */
+  setModified: (val: boolean): void => {
+    if (!app.hasFSAccess) {
+      return;
+    }
+    app.file.isModified = val;
+    document.body.classList.toggle('modified', val);
+    const hidden = !val;
+    setModifiedHeaderHidden(hidden);
+    setModifiedFooterHidden(hidden);
+  },
 } as App;
 
 // Verify the APIs we need are supported, show a polite warning if not.
@@ -485,6 +533,15 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // setTimeout(() => { app.setFocus(); console.log("focused"); }, 2000);
+
+// Setup the before unload listener to prevent accidental loss on navigation.
+window.addEventListener('beforeunload', (e) => {
+  const msg = `There are unsaved changes. Are you sure you want to leave?`;
+  if (app.file.isModified) {
+    e.preventDefault();
+    e.returnValue = msg;
+  }
+});
 
 export default function AppComponent() {
   const Header = lazy(() => import("./Header.js"));
