@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { setHeaderAppNameHidden, setHeaderFileName, setModifiedFooterHidden, setModifiedHeaderHidden } from "./AppComponent.js";
-import { app } from "./app.js";
+import { app, setHeaderAppNameHidden, setHeaderFileName, setModifiedFooterHidden, setModifiedHeaderHidden } from "./app.js";
 
   // Setup the before unload listener to prevent accidental loss on navigation.
   window.addEventListener('beforeunload', (e) => {

@@ -15,9 +15,8 @@
  */
 
 import { createEffect } from "solid-js";
-import { app } from "./app.js";
+import { app, butSaveHidden } from "./app.js";
 import { myMenus } from "./menus.js";
-import { butSaveHidden } from "./AppComponent.js";
 
 export default function MenuFile() {
   let menuFile: HTMLDivElement;

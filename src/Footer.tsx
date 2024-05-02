@@ -1,4 +1,4 @@
-import { lblLegacyFSHidden, lblTabMovesFocusHidden, modifiedFooterHidden, notSupportedHidden } from "./AppComponent.js";
+import { lblLegacyFSHidden, lblTabMovesFocusHidden, modifiedFooterHidden, notSupportedHidden } from "./app.js";
 
 export default function Footer() {
   return (

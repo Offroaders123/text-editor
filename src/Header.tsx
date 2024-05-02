@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "solid-js";
-import { headerAppNameHidden, headerFileName, modifiedHeaderHidden } from "./AppComponent.js";
+import { headerAppNameHidden, headerFileName, modifiedHeaderHidden } from "./app.js";
 
 export default function Header() {
   const MenuFile = lazy(() => import("./menu-file.js"));
