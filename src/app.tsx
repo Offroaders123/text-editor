@@ -20,6 +20,8 @@ import { Suspense, render } from "solid-js/web";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent } from "./rum.js";
 
+import type { Signal } from "solid-js";
+
 const root = document.querySelector<HTMLDivElement>("#root")!;
 
 export const [aDownloadFile, setADownloadFile] = createSignal<HTMLAnchorElement | null>(null);
@@ -42,10 +44,10 @@ export interface App {
     isModified: boolean;
   };
   options: {
-    captureTabs: boolean;
+    captureTabs: Signal<boolean>;
     fontSize: number;
-    monoSpace: boolean;
-    wordWrap: boolean;
+    monoSpace: Signal<boolean>;
+    wordWrap: Signal<boolean>;
   };
   hasFSAccess: boolean;
   isMac: boolean;
@@ -84,10 +86,10 @@ export const app = {
     isModified: false,
   },
   options: {
-    captureTabs: true,
+    captureTabs: createSignal<boolean>(true),
     fontSize: 14,
-    monoSpace: false,
-    wordWrap: true,
+    monoSpace: createSignal<boolean>(false),
+    wordWrap: createSignal<boolean>(true),
   },
   hasFSAccess: 'chooseFileSystemEntries' in window ||
                'showOpenFilePicker' in window,

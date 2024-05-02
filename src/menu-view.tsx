@@ -21,48 +21,17 @@ import { gaEvent } from "./rum.js";
 
 export default function MenuView() {
   let menuView: HTMLDivElement;
-  let butWordWrap: HTMLButtonElement;
-  let butMonospace: HTMLButtonElement;
-  let butCaptureTabs: HTMLButtonElement;
-  let butFontBigger: HTMLButtonElement;
-  let butFontSmaller: HTMLButtonElement;
 
   createEffect(() => {
 
   myMenus.setup(menuView);
-
-  butWordWrap.addEventListener('click', () => {
-    myMenus.hide(menuView);
-    app.toggleWordWrap();
-  });
-
-  butMonospace.addEventListener('click', () => {
-    myMenus.hide(menuView);
-    app.toggleMonospace();
-  });
-
-  butCaptureTabs.addEventListener('click', () => {
-    myMenus.hide(menuView);
-    app.toggleCaptureTabs();
-  });
-
-  butFontBigger.addEventListener('click', () => {
-    myMenus.hide(menuView);
-    app.adjustFontSize(+2);
-  });
-
-  butFontSmaller.addEventListener('click', () => {
-    myMenus.hide(menuView);
-    app.adjustFontSize(-2);
-  });
 
   /**
    * Toggle word wrap
    */
   app.toggleWordWrap = (): void => {
     const newVal = document.body.classList.toggle('wordwrap');
-    butWordWrap.setAttribute('aria-checked', String(newVal));
-    app.options.wordWrap = newVal;
+    app.options.wordWrap[1](newVal);
     gaEvent('Options', 'Word Wrap', newVal ? 'true' : 'false');
   };
 
@@ -71,8 +40,7 @@ export default function MenuView() {
    */
   app.toggleMonospace = (): void => {
     const newVal = document.body.classList.toggle('monospace');
-    butMonospace.setAttribute('aria-checked', String(newVal));
-    app.options.monoSpace = newVal;
+    app.options.monoSpace[1](newVal);
     gaEvent('Options', 'Font Face', newVal ? 'monospace' : 'normal');
   };
 
@@ -81,8 +49,7 @@ export default function MenuView() {
    */
   app.toggleCaptureTabs = (): void => {
     const newVal = !app.options.captureTabs;
-    app.options.captureTabs = newVal;
-    butCaptureTabs.setAttribute('aria-checked', String(newVal));
+    app.options.captureTabs[1](newVal);
     setLblTabMovesFocusHidden(newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));
   };
@@ -95,19 +62,34 @@ export default function MenuView() {
           <span class="kbdShortcut">V</span>iew
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butWordWrap" ref={butWordWrap!} type="button" aria-checked="true" role="menuitemcheckbox">
+        <button id="butWordWrap" type="button" aria-checked={app.options.wordWrap[0]()} role="menuitemcheckbox" onclick={() => {
+          myMenus.hide(menuView);
+          app.toggleWordWrap();
+        }}>
           Word Wrap
         </button>
-        <button id="butMonospace" ref={butMonospace!} type="button" aria-checked="false" role="menuitemcheckbox">
+        <button id="butMonospace" type="button" aria-checked={app.options.monoSpace[0]()} role="menuitemcheckbox" onclick={() => {
+          myMenus.hide(menuView);
+          app.toggleMonospace();
+        }}>
           Monospace Font
         </button>
-        <button id="butCaptureTabs" ref={butCaptureTabs!} type="button" aria-checked="true" role="menuitemcheckbox">
+        <button id="butCaptureTabs" type="button" aria-checked={app.options.captureTabs[0]()} role="menuitemcheckbox" onclick={() => {
+          myMenus.hide(menuView);
+          app.toggleCaptureTabs();
+        }}>
           Capture Tabs <kbd>^&uparrow;M</kbd>
         </button>
-        <button id="butFontBigger" ref={butFontBigger!} type="button" role="menuitem">
+        <button id="butFontBigger" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuView);
+          app.adjustFontSize(+2);
+        }}>
           Increase Font Size
         </button>
-        <button id="butFontSmaller" ref={butFontSmaller!} type="button" role="menuitem">
+        <button id="butFontSmaller" type="button" role="menuitem" onclick={() => {
+          myMenus.hide(menuView);
+          app.adjustFontSize(-2);
+        }}>
           Decrease Font Size
         </button>
       </div>
