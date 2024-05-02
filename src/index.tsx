@@ -15,8 +15,5 @@ import "./menu-file.js";
 import "./menu-edit.js";
 import "./menu-view.js";
 import "./menu-recent.js";
-import "./ui.js";
-import "./keyboard-events.js";
-import "./load-sw.js";
 import "./app-install.js";
 import "./fallback.js";
