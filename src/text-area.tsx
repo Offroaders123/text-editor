@@ -14,33 +14,10 @@
  * limitations under the License.
  */
 
-import { createEffect } from "solid-js";
-import { app, setTextEditor, textEditor } from "./app.js";
+import { app, setTextEditor } from "./app.js";
 import { myMenus } from "./menus.js";
 
 export default function TextArea() {
-  createEffect(() => {
-
-  /* Setup the main textarea */
-  textEditor()!.addEventListener('input', () => {
-    app.setModified(true);
-  });
-
-  /* Hide menus any time we start typing */
-  textEditor()!.addEventListener('focusin', () => {
-    myMenus.hideAll();
-  });
-
-  /* Listen for tab key */
-  textEditor()!.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab' && app.options.captureTabs[0]() === true) {
-      e.preventDefault();
-      app.insertIntoDoc('\t');
-    }
-  });
-
-  });
-
   return (
     <textarea
       id="textEditor"
@@ -48,6 +25,18 @@ export default function TextArea() {
       autofocus
       spellcheck={true}
       aria-label="Text Editor"
+      oninput={() => {
+        app.setModified(true);
+      }}
+      onfocusin={() => {
+        myMenus.hideAll();
+      }}
+      onkeydown={(e) => {
+        if (e.key === 'Tab' && app.options.captureTabs[0]() === true) {
+          e.preventDefault();
+          app.insertIntoDoc('\t');
+        }
+      }}
     />
   );
 }
