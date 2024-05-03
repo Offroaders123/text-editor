@@ -376,6 +376,22 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
+ * Add Analytics script to page
+ */
+window.addEventListener('DOMContentLoaded', () => {
+  if (location.hostname === 'localhost') {
+    // eslint-disable-next-line no-console
+    console.log('🔕', 'Running on localhost, analytics not loaded.');
+    return;
+  }
+
+  /* Enable Google Analytics Here. */
+  // const gaScript = document.createElement('script');
+  // gaScript.src = 'https://www.google-analytics.com/analytics.js';
+  // document.head.appendChild(gaScript);
+});
+
+/**
  * Log the app version.
  */
 window.addEventListener('load', () => {
