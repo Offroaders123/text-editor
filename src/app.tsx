@@ -561,6 +561,20 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
+/* Show shortcuts on menu items when ALT key is pressed, non-Mac only */
+if (!app.isMac) {
+  window.addEventListener('keydown', (e) => {
+    if (e.altKey === true && e.key === 'Alt') {
+      document.body.classList.toggle('altKey', true);
+    }
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Alt') {
+      document.body.classList.toggle('altKey', false);
+    }
+  });
+}
+
 /**
  * Track successful app installs
  */
