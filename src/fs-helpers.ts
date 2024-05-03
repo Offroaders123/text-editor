@@ -22,13 +22,15 @@
  *
  * @returns Handle to the existing file.
  */
-export function getFileHandle(): Promise<FileSystemFileHandle> {
+export async function getFileHandle(): Promise<FileSystemFileHandle> {
   // For Chrome 86 and later...
-  if ('showOpenFilePicker' in window) {
-    return window.showOpenFilePicker().then((handles) => handles[0]);
+  if (typeof window.showOpenFilePicker !== "undefined") {
+    const [handle] = await window.showOpenFilePicker();
+    return handle;
   }
+
   // For Chrome 85 and earlier...
-  return (window as typeof globalThis).chooseFileSystemEntries();
+  return window.chooseFileSystemEntries();
 }
 
 /**
@@ -36,27 +38,30 @@ export function getFileHandle(): Promise<FileSystemFileHandle> {
  *
  * @returns Handle to the new file.
  */
-export function getNewFileHandle(): Promise<FileSystemFileHandle> {
+export async function getNewFileHandle(): Promise<FileSystemFileHandle> {
   // For Chrome 86 and later...
-  if ('showSaveFilePicker' in window) {
-    const opts: SaveFilePickerOptions = {
+  if (typeof window.showSaveFilePicker !== "undefined") {
+    const handle = await window.showSaveFilePicker({
       types: [{
         description: 'Text file',
         accept: {'text/plain': ['.txt']},
       }],
-    };
-    return window.showSaveFilePicker(opts);
+    });
+    return handle;
   }
+
   // For Chrome 85 and earlier...
-  const opts: ChooseFileSystemEntriesFileOptions & { type: "save-file"; } = {
+  const handle = await window.chooseFileSystemEntries({
     type: 'save-file',
-    accepts: [{
-      description: 'Text file',
-      extensions: ['txt'],
-      mimeTypes: ['text/plain'],
-    }],
-  };
-  return (window as typeof globalThis).chooseFileSystemEntries(opts);
+    accepts: [
+      {
+        description: 'Text file',
+        extensions: ['txt'],
+        mimeTypes: ['text/plain'],
+      }
+    ],
+  });
+  return handle;
 }
 
 /**
@@ -64,27 +69,29 @@ export function getNewFileHandle(): Promise<FileSystemFileHandle> {
  *
  * @returns A promise that resolves to the parsed string.
  */
-export function readFile(file: File): Promise<string> {
+export async function readFile(file: File): Promise<string> {
   // If the new .text() reader is available, use it.
-  if (file.text) {
+  if (typeof file.text !== "undefined") {
     return file.text();
   }
   // Otherwise use the traditional file reading technique.
-  return _readFileLegacy(file);
+  return readFileLegacy(file);
 }
 
 /**
  * Reads the raw text from a file.
  *
- * @private
  * @returns A promise that resolves to the parsed string.
  */
-function _readFileLegacy(file: File): Promise<string> {
-  return new Promise((resolve) => {
+async function readFileLegacy(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.addEventListener('loadend', (e) => {
-      const text: string = (e.srcElement as FileReader).result as string;
+    reader.addEventListener('loadend', function() {
+      const text: string = this.result as string;
       resolve(text);
+    });
+    reader.addEventListener('error', function() {
+      reject(this.error);
     });
     reader.readAsText(file);
   });
