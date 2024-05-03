@@ -23,18 +23,23 @@ export default function ButInstall() {
   let butInstall: HTMLButtonElement;
 
   createEffect(async () => {
-
-  await myMenus.addKeyboardShortcut(butInstall);
-
+    await myMenus.addKeyboardShortcut(butInstall);
   });
 
   return (
-    <button id="butInstall" ref={butInstall!} aria-label="Install" classList={{ menuTop: true, hidden: installHidden() }} disabled={installDisabled()} onclick={() => {
-      setInstallDisabled(true);
-      app.installPrompt.prompt();
-      gaEvent('Install', 'clicked');
-    }}>
-        <span class="kbdShortcut">I</span>nstall
+    <button
+      id="butInstall"
+      ref={butInstall!}
+      aria-label="Install"
+      classList={{ menuTop: true, hidden: installHidden() }}
+      disabled={installDisabled()}
+      onclick={() => {
+        setInstallDisabled(true);
+        app.installPrompt.prompt();
+        gaEvent('Install', 'clicked');
+      }}
+    >
+      <span class="kbdShortcut">I</span>nstall
     </button>
-    );
+  );
 }

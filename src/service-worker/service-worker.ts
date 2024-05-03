@@ -17,13 +17,11 @@
 declare var self: ServiceWorkerGlobalScope;
 
 self.addEventListener('install', function() {
-  // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Install');
   self.skipWaiting();
 });
 
 self.addEventListener('activate', function() {
-  // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Activate');
   return self.clients.claim();
 });

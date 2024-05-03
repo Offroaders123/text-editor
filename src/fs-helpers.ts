@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-/* exported getFileHandle, getNewFileHandle, readFile, verifyPermission,
-            writeFile */
-
 /**
  * Open a handle to an existing file on the local file system.
  *

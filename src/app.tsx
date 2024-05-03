@@ -84,10 +84,6 @@ export interface App {
   setModified(val: boolean): void;
 }
 
-/* globals getFileHandle, getNewFileHandle, readFile, verifyPermission,
-           writeFile */
-
-// eslint-disable-next-line no-redeclare
 export const app = {
   appName: 'Text Editor',
   file: {
@@ -323,7 +319,6 @@ window.addEventListener('load', () => {
         .register('./service-worker.js');
   }
 });
-
 
 /**
  * Analytics for window type: browser, standalone, standalone-ios
@@ -646,47 +641,47 @@ app.quitApp = (): void => {
   window.close();
 };
 
-  /**
-   * Refresh the list of files in the menu.
-   */
-  export async function refreshRecents(): Promise<void> {
-    const { myMenus } = await import("./menus.js");
+/**
+ * Refresh the list of files in the menu.
+ */
+export async function refreshRecents(): Promise<void> {
+  const { myMenus } = await import("./menus.js");
 
-    // Clear the existing menu.
+  // Clear the existing menu.
+  myMenus.clearMenu(menuRecent()!);
+
+  // If there are no recents, don't draw anything.
+  if (recentFiles().length === 0) {
+    return;
+  }
+
+  // Loop through the list of recent files and add a button for each.
+  recentFiles().forEach((recent) => {
+    const butt = myMenus.createButton(recent.name);
+    butt.addEventListener('click', () => {
+      myMenus.hide(menuRecent()!);
+      app.openFile(recent);
+    });
+    myMenus.addElement(menuRecent()!, butt);
+  });
+
+  // Add a button to clear the list of recent items.
+  addClearButton(myMenus);
+}
+
+/**
+ * Adds a clear button to the menu that clears the list of most recent items.
+ */
+function addClearButton(myMenus: typeof import("./menus.js").myMenus): void {
+  const clearButt = myMenus.createButton('Clear');
+  clearButt.addEventListener('click', () => {
     myMenus.clearMenu(menuRecent()!);
-
-    // If there are no recents, don't draw anything.
-    if (recentFiles().length === 0) {
-      return;
-    }
-
-    // Loop through the list of recent files and add a button for each.
-    recentFiles().forEach((recent) => {
-      const butt = myMenus.createButton(recent.name);
-      butt.addEventListener('click', () => {
-        myMenus.hide(menuRecent()!);
-        app.openFile(recent);
-      });
-      myMenus.addElement(menuRecent()!, butt);
-    });
-
-    // Add a button to clear the list of recent items.
-    addClearButton(myMenus);
-  }
-
-  /**
-   * Adds a clear button to the menu that clears the list of most recent items.
-   */
-  function addClearButton(myMenus: typeof import("./menus.js").myMenus): void {
-    const clearButt = myMenus.createButton('Clear');
-    clearButt.addEventListener('click', () => {
-      myMenus.clearMenu(menuRecent()!);
-      setRecentFiles([]);
-      clear();
-      app.setFocus();
-    });
-    myMenus.addElement(menuRecent()!, clearButt);
-  }
+    setRecentFiles([]);
+    clear();
+    app.setFocus();
+  });
+  myMenus.addElement(menuRecent()!, clearButt);
+}
 
 render(() => <AppComponent/>, root);
 
@@ -719,9 +714,7 @@ export default function AppComponent() {
     <>
       <Header/>
       <TextArea/>
-
       <Fallback/>
-
       <Footer/>
     </>
   );

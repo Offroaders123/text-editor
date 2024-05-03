@@ -28,8 +28,16 @@ export default function ADownloadFile() {
 
   return (
     <>
-      <a id="aDownloadFile" ref={aDownloadFile!} download></a>
-      <input type="file" id="filePicker" ref={filePicker!}/>
+      <a
+        id="aDownloadFile"
+        ref={aDownloadFile!}
+        download
+      />
+      <input
+        type="file"
+        id="filePicker"
+        ref={filePicker!}
+      />
     </>
   );
 }

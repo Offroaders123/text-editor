@@ -15,7 +15,6 @@
  */
 
 @media screen and (display-mode: standalone) {
-
   header h1 {
     display: none;
   }
@@ -27,6 +26,4 @@
   header #butInstall {
     display: none;
   }
-
-
 }

@@ -22,15 +22,13 @@ export default function MenuView() {
   let menuView: HTMLDivElement;
 
   createEffect(() => {
-
-  myMenus.setup(menuView);
-
+    myMenus.setup(menuView);
   });
 
   return (
     <div id="menuView" ref={menuView!} class="menuContainer">
       <button id="butView" class="menuTop" aria-label="View" aria-haspopup="true" aria-expanded="false">
-          <span class="kbdShortcut">V</span>iew
+        <span class="kbdShortcut">V</span>iew
       </button>
       <div role="menu" class="menuItemContainer hidden">
         <button id="butWordWrap" type="button" aria-checked={app.options.wordWrap[0]()} role="menuitemcheckbox" onclick={() => {

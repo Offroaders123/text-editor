@@ -18,14 +18,9 @@ import { createEffect } from "solid-js";
 import { menuRecent, setMenuRecent } from "./app.js";
 import { myMenus } from "./menus.js";
 
-/* global idbKeyval */
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-
 export default function MenuRecent() {
   createEffect(() => {
-
-  myMenus.setup(menuRecent()!);
-
+    myMenus.setup(menuRecent()!);
   });
 
   return (
@@ -33,8 +28,7 @@ export default function MenuRecent() {
       <button id="butRecent" class="menuTop" aria-label="Recent" aria-haspopup="true" aria-expanded="false">
         <span class="kbdShortcut">R</span>ecent
       </button>
-      <div id="recentContainer" role="menu" class="menuItemContainer hidden">
-      </div>
+      <div id="recentContainer" role="menu" class="menuItemContainer hidden"/>
     </div>
   );
 }

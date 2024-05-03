@@ -22,9 +22,7 @@ export default function MenuFile() {
   let menuFile: HTMLDivElement;
 
   createEffect(() => {
-
-  myMenus.setup(menuFile);
-
+    myMenus.setup(menuFile);
   });
 
   return (

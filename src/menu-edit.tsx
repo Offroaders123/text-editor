@@ -23,15 +23,13 @@ export default function MenuEdit() {
   let menuEdit: HTMLDivElement;
 
   createEffect(() => {
-
-  myMenus.setup(menuEdit);
-
+    myMenus.setup(menuEdit);
   });
 
   return (
     <div id="menuEdit" ref={menuEdit!} class="menuContainer">
       <button id="butEdit" class="menuTop" aria-label="Edit" aria-haspopup="true" aria-expanded="false">
-          <span class="kbdShortcut">E</span>dit
+        <span class="kbdShortcut">E</span>dit
       </button>
       <div role="menu" class="menuItemContainer hidden">
         <button id="butCut" type="button" role="menuitem" onclick={() => {

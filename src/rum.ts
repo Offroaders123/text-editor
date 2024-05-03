@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-redeclare */
-/* exported gaEvent, gaTiming, */
-
 /**
  * Logs an event to Google Analytics.
  * @param category The object that was interacted with.

@@ -9,7 +9,8 @@ export default function Header() {
   return (
     <header>
       <h1>
-        <span id="headerFileName">{headerFileName()}</span><span id="modifiedHeader" classList={{ hidden: modifiedHeaderHidden() }}>*</span>
+        <span id="headerFileName">{headerFileName()}</span>
+        <span id="modifiedHeader" classList={{ hidden: modifiedHeaderHidden() }}>*</span>
         <span id="headerAppName" classList={{ hidden: headerAppNameHidden() }}> - Text Editor</span>
       </h1>
       <nav class="menubar">
