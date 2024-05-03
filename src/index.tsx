@@ -1,15 +1,7 @@
 /* @refresh reload */
+import { render } from "solid-js/web";
+import App from "./app.js";
 
-import "./rum.js";
-import "./app.js";
+const root = document.querySelector<HTMLDivElement>("#root")!;
 
-import "./menus.js";
-
-import "./text-area.js";
-import "./fs-helpers.js";
-import "./menu-file.js";
-import "./menu-edit.js";
-import "./menu-view.js";
-import "./menu-recent.js";
-import "./app-install.js";
-import "./fallback.js";
+render(() => <App/>, root);

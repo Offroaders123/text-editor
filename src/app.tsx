@@ -1,4 +1,3 @@
-/* @refresh reload */
 /**
  * Copyright 2019 Google LLC
  *
@@ -16,7 +15,6 @@
  */
 
 import { createSignal } from "solid-js";
-import { render } from "solid-js/web";
 import { clear, get, set } from "idb-keyval";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent, gaTiming } from "./rum.js";
@@ -24,8 +22,6 @@ import Header from "./Header.js";
 import TextArea from "./text-area.js";
 import Fallback from "./fallback.js";
 import Footer from "./Footer.js";
-
-const root = document.querySelector<HTMLDivElement>("#root")!;
 
 export const [aDownloadFile, setADownloadFile] = createSignal<HTMLAnchorElement | null>(null);
 export const [filePicker, setFilePicker] = createSignal<HTMLInputElement | null>(null);
@@ -653,8 +649,6 @@ function addClearButton(myMenus: typeof import("./menus.js").myMenus): void {
   myMenus.addElement(menuRecent()!, clearButt);
 }
 
-render(() => <AppComponent/>, root);
-
 setRecentFiles(await get('recentFiles') || []);
 refreshRecents();
 
@@ -679,7 +673,7 @@ window.addEventListener('beforeunload', (e) => {
   }
 });
 
-export default function AppComponent() {
+export default function App() {
   return (
     <>
       <Header/>
