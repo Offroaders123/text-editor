@@ -15,7 +15,7 @@
  */
 
 import { createEffect } from "solid-js";
-import { app, butSaveHidden } from "./app.js";
+import { newFile, openFile, saveFile, saveFileAs, quitApp, butSaveHidden } from "./app.js";
 import { myMenus } from "./menus.js";
 
 export default function MenuFile() {
@@ -33,31 +33,31 @@ export default function MenuFile() {
       <div role="menu" class="menuItemContainer hidden">
         <button id="butNew" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuFile);
-          app.newFile();
+          newFile();
         }}>
           New <kbd>^N</kbd>
         </button>
         <button id="butOpen" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuFile);
-          app.openFile();
+          openFile();
         }}>
           Open <kbd>^O</kbd>
         </button>
         <button id="butSave" type="button" role="menuitem" classList={{ hidden: butSaveHidden() }} onclick={() => {
           myMenus.hide(menuFile);
-          app.saveFile();
+          saveFile();
         }}>
           Save <kbd>^S</kbd>
         </button>
         <button id="butSaveAs" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuFile);
-          app.saveFileAs();
+          saveFileAs();
         }}>
           Save As <kbd>^&uparrow;S</kbd>
         </button>
         <button id="butClose" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuFile);
-          app.quitApp();
+          quitApp();
         }}>
           Close <kbd>^W</kbd>
         </button>

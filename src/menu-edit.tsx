@@ -15,7 +15,7 @@
  */
 
 import { createEffect } from "solid-js";
-import { app } from "./app.js";
+import { insertIntoDoc, setModified, setFocus } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
@@ -50,9 +50,9 @@ export default function MenuEdit() {
           myMenus.hide(menuEdit);
           try {
             const contents = await navigator.clipboard.readText();
-            app.insertIntoDoc(contents);
-            app.setModified(true);
-            app.setFocus();
+            insertIntoDoc(contents);
+            setModified(true);
+            setFocus();
             gaEvent('Edit', 'Paste');
           } catch (ex: any) {
             console.error('Unable to paste', ex);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { app, setTextEditor } from "./app.js";
+import { setModified, options, insertIntoDoc, setTextEditor } from "./app.js";
 import { myMenus } from "./menus.js";
 
 export default function TextArea() {
@@ -26,15 +26,15 @@ export default function TextArea() {
       spellcheck={true}
       aria-label="Text Editor"
       oninput={() => {
-        app.setModified(true);
+        setModified(true);
       }}
       onfocusin={() => {
         myMenus.hideAll();
       }}
       onkeydown={(e) => {
-        if (e.key === 'Tab' && app.options.captureTabs[0]() === true) {
+        if (e.key === 'Tab' && options.captureTabs[0]() === true) {
           e.preventDefault();
-          app.insertIntoDoc('\t');
+          insertIntoDoc('\t');
         }
       }}
     />

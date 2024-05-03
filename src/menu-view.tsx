@@ -15,7 +15,7 @@
  */
 
 import { createEffect } from "solid-js";
-import { app } from "./app.js";
+import { options, toggleWordWrap, toggleMonospace, toggleCaptureTabs, adjustFontSize } from "./app.js";
 import { myMenus } from "./menus.js";
 
 export default function MenuView() {
@@ -31,33 +31,33 @@ export default function MenuView() {
         <span class="kbdShortcut">V</span>iew
       </button>
       <div role="menu" class="menuItemContainer hidden">
-        <button id="butWordWrap" type="button" aria-checked={app.options.wordWrap[0]()} role="menuitemcheckbox" onclick={() => {
+        <button id="butWordWrap" type="button" aria-checked={options.wordWrap[0]()} role="menuitemcheckbox" onclick={() => {
           myMenus.hide(menuView);
-          app.toggleWordWrap();
+          toggleWordWrap();
         }}>
           Word Wrap
         </button>
-        <button id="butMonospace" type="button" aria-checked={app.options.monoSpace[0]()} role="menuitemcheckbox" onclick={() => {
+        <button id="butMonospace" type="button" aria-checked={options.monoSpace[0]()} role="menuitemcheckbox" onclick={() => {
           myMenus.hide(menuView);
-          app.toggleMonospace();
+          toggleMonospace();
         }}>
           Monospace Font
         </button>
-        <button id="butCaptureTabs" type="button" aria-checked={app.options.captureTabs[0]()} role="menuitemcheckbox" onclick={() => {
+        <button id="butCaptureTabs" type="button" aria-checked={options.captureTabs[0]()} role="menuitemcheckbox" onclick={() => {
           myMenus.hide(menuView);
-          app.toggleCaptureTabs();
+          toggleCaptureTabs();
         }}>
           Capture Tabs <kbd>^&uparrow;M</kbd>
         </button>
         <button id="butFontBigger" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuView);
-          app.adjustFontSize(+2);
+          adjustFontSize(+2);
         }}>
           Increase Font Size
         </button>
         <button id="butFontSmaller" type="button" role="menuitem" onclick={() => {
           myMenus.hide(menuView);
-          app.adjustFontSize(-2);
+          adjustFontSize(-2);
         }}>
           Decrease Font Size
         </button>

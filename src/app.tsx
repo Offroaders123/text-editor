@@ -16,7 +16,7 @@
 
 import { createSignal } from "solid-js";
 import { clear, get, set } from "idb-keyval";
-import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
+import { getFileHandle, getNewFileHandle, readFile as readFileHelper, verifyPermission, writeFile } from "./fs-helpers.js";
 import { gaEvent, gaTiming } from "./rum.js";
 import Header from "./Header.js";
 import TextArea from "./text-area.js";
@@ -40,54 +40,53 @@ export const [lblLegacyFSHidden, setLblLegacyFSHidden] = createSignal<boolean>(t
 export const [lblTabMovesFocusHidden, setLblTabMovesFocusHidden] = createSignal<boolean>(true);
 export const [recentFiles, setRecentFiles] = createSignal<FileSystemFileHandle[]>([]);
 
-export const app = {
-  appName: 'Text Editor',
-  file: {
+export const appName = 'Text Editor';
+export const file = {
     handle: null as FileSystemFileHandle | null,
     name: null as string | null,
     isModified: false,
-  },
-  options: {
+  };
+export const options = {
     captureTabs: createSignal<boolean>(true),
     fontSize: 14,
     monoSpace: createSignal<boolean>(false),
     wordWrap: createSignal<boolean>(true),
-  },
-  hasFSAccess: 'chooseFileSystemEntries' in window ||
-               'showOpenFilePicker' in window,
-  isMac: navigator.userAgent.includes('Mac OS X'),
-  installPrompt: null as BeforeInstallPromptEvent | null,
+  };
+export const hasFSAccess: boolean = 'chooseFileSystemEntries' in window ||
+               'showOpenFilePicker' in window;
+export const isMac: boolean = navigator.userAgent.includes('Mac OS X');
+export const [installPrompt, setInstallPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
   /**
    * Creates an empty notepad with no details in it.
    */
-  newFile: (): void => {
-    if (!app.confirmDiscard()) {
+  export function newFile(): void {
+    if (!confirmDiscard()) {
       return;
     }
-    app.setText();
-    app.setFile();
-    app.setModified(false);
-    app.setFocus(true);
+    setText();
+    setFile();
+    setModified(false);
+    setFocus(true);
     gaEvent('FileAction', 'New');
-  },
+  }
 
   /**
    * Opens a file for reading.
    *
    * @param fileHandle File handle to read from.
    */
-  openFile: async (fileHandle?: FileSystemFileHandle): Promise<void> => {
-    if (!app.confirmDiscard()) {
+  export async function openFile(fileHandle?: FileSystemFileHandle): Promise<void> {
+    if (!confirmDiscard()) {
       return;
     }
 
     // If the File System Access API is not supported, use the legacy file apis.
-    if (!app.hasFSAccess) {
+    if (!hasFSAccess) {
       gaEvent('FileAction', 'Open', 'Legacy');
-      const file = await app.getFileLegacy();
+      const file = await getFileLegacy();
       if (file) {
-        app.readFile(file);
+        readFile(file);
       }
       return;
     }
@@ -119,8 +118,8 @@ export const app = {
       return;
     }
     const file = await fileHandle.getFile();
-    app.readFile(file, fileHandle);
-  },
+    readFile(file, fileHandle);
+  }
 
   /**
    * Read the file from disk.
@@ -128,48 +127,48 @@ export const app = {
    *  @param file File to read from.
    *  @param fileHandle File handle to read from.
    */
-  readFile: async (file: File, fileHandle?: FileSystemFileHandle): Promise<void> => {
+  export async function readFile(file: File, fileHandle?: FileSystemFileHandle): Promise<void> {
     try {
-      app.setText(await readFile(file));
-      app.setFile(fileHandle || file.name);
-      app.setModified(false);
-      app.setFocus(true);
+      setText(await readFileHelper(file));
+      setFile(fileHandle || file.name);
+      setModified(false);
+      setFocus(true);
     } catch (ex: any) {
       gaEvent('Error', 'FileRead', ex.name);
-      const msg = `An error occured reading ${app.file.name}`;
+      const msg = `An error occured reading ${file.name}`;
       console.error(msg, ex);
       alert(msg);
     }
-  },
+  }
 
   /**
    * Saves a file to disk.
    */
-  saveFile: async (): Promise<void> => {
+  export async function saveFile(): Promise<void> {
     try {
-      if (!app.file.handle) {
-        return await app.saveFileAs();
+      if (!file.handle) {
+        return await saveFileAs();
       }
       gaEvent('FileAction', 'Save');
-      await writeFile(app.file.handle, app.getText());
-      app.setModified(false);
+      await writeFile(file.handle, getText());
+      setModified(false);
     } catch (ex: any) {
       gaEvent('Error', 'FileSave', ex.name);
       const msg = 'Unable to save file';
       console.error(msg, ex);
       alert(msg);
     }
-    app.setFocus();
-  },
+    setFocus();
+  }
 
   /**
    * Saves a new file to disk.
    */
-  saveFileAs: async (): Promise<void> => {
-    if (!app.hasFSAccess) {
+  export async function saveFileAs(): Promise<void> {
+    if (!hasFSAccess) {
       gaEvent('FileAction', 'Save As', 'Legacy');
-      app.saveAsLegacy(app.file.name || 'Untitled.txt', app.getText());
-      app.setFocus();
+      saveAsLegacy(file.name || 'Untitled.txt', getText());
+      setFocus();
       return;
     }
     gaEvent('FileAction', 'Save As', 'FSAccess');
@@ -187,9 +186,9 @@ export const app = {
       return;
     }
     try {
-      await writeFile(fileHandle, app.getText());
-      app.setFile(fileHandle);
-      app.setModified(false);
+      await writeFile(fileHandle, getText());
+      setFile(fileHandle);
+      setModified(false);
     } catch (ex: any) {
       gaEvent('Error', 'FileSaveAs2', ex.name);
       const msg = 'Unable to save file.';
@@ -198,26 +197,26 @@ export const app = {
       gaEvent('Error', 'Unable to write file', 'FSAccess');
       return;
     }
-    app.setFocus();
-  },
+    setFocus();
+  }
 
   /**
    * Attempts to close the window
    */
-  quitApp: (): void => {
-    if (!app.confirmDiscard()) {
+  export function quitApp(): void {
+    if (!confirmDiscard()) {
       return;
     }
     gaEvent('FileAction', 'Quit');
     window.close();
-  },
+  }
 
   /**
    * Uses the <input type="file"> to open a new file
    *
    * @returns File selected by the user.
    */
-  getFileLegacy: (): Promise<File> => {
+  export async function getFileLegacy(): Promise<File> {
     return new Promise((resolve, reject) => {
       filePicker()!.onchange = () => {
         const file = filePicker()!.files![0];
@@ -229,7 +228,7 @@ export const app = {
       };
       filePicker()!.click();
     });
-  },
+  }
 
   /**
    * Saves a file by creating a downloadable instance, and clicking on the
@@ -239,21 +238,21 @@ export const app = {
    * @param contents Contents of the file to save.
    */
   // function saveAsLegacy(filename, contents) {
-  saveAsLegacy: (filename: string, contents: string): void => {
+  export function saveAsLegacy(filename: string, contents: string): void {
     filename = filename || 'Untitled.txt';
     const opts = {type: 'text/plain'};
     const file = new File([contents], '', opts);
     aDownloadFile()!.href = window.URL.createObjectURL(file);
     aDownloadFile()!.setAttribute('download', filename);
     aDownloadFile()!.click();
-  },
+  }
 
   /**
    * Adds a new item to the list of recent files.
    *
    * @param fileHandle File handle to add.
    */
-  addRecent: async function(fileHandle: FileSystemFileHandle): Promise<void> {
+  export async function addRecent(fileHandle: FileSystemFileHandle): Promise<void> {
     // If isSameEntry isn't available, we can't store the file handle
     if (!fileHandle.isSameEntry) {
       console.warn('Saving of recents is unavailable.');
@@ -280,57 +279,57 @@ export const app = {
 
     // Save the list of recent files.
     set('recentFiles', recentFiles());
-  },
+  }
 
   /**
    * Toggle word wrap
    */
-  toggleWordWrap: (): void => {
+  export function toggleWordWrap(): void {
     const newVal = document.body.classList.toggle('wordwrap');
-    app.options.wordWrap[1](newVal);
+    options.wordWrap[1](newVal);
     gaEvent('Options', 'Word Wrap', newVal ? 'true' : 'false');
-  },
+  }
 
   /**
    * Toggle Monospace
    */
-  toggleMonospace: (): void => {
+  export function toggleMonospace(): void {
     const newVal = document.body.classList.toggle('monospace');
-    app.options.monoSpace[1](newVal);
+    options.monoSpace[1](newVal);
     gaEvent('Options', 'Font Face', newVal ? 'monospace' : 'normal');
-  },
+  }
 
   /**
    * Toggles the capture tab functionality
    */
-  toggleCaptureTabs: (): void => {
-    const newVal = !app.options.captureTabs[0]();
-    app.options.captureTabs[1](newVal);
+  export function toggleCaptureTabs(): void {
+    const newVal = !options.captureTabs[0]();
+    options.captureTabs[1](newVal);
     setLblTabMovesFocusHidden(newVal);
     gaEvent('Options', 'Capture Tabs', String(newVal));
-  },
+  }
 
   /**
    * Sets the text of the editor to the specified value
    */
-  setText: (val?: string): void => {
+  export function setText(val?: string): void {
     val = val || '';
     textEditor()!.value = val;
-  },
+  }
 
   /**
    * Gets the text from the editor
    */
-  getText: (): string => {
+  export function getText(): string {
     return textEditor()!.value;
-  },
+  }
 
   /**
    * Inserts a string into the editor.
    *
    * @param contents Contents to insert into the document.
    */
-  insertIntoDoc: (contents: string): void => {
+  export function insertIntoDoc(contents: string): void {
     // Find the current cursor position
     const startPos = textEditor()!.selectionStart;
     const endPos = textEditor()!.selectionEnd;
@@ -346,83 +345,82 @@ export const app = {
     const newPos = startPos + contents.length;
     textEditor()!.selectionStart = newPos;
     textEditor()!.selectionEnd = newPos;
-    app.setModified(true);
-  },
+    setModified(true);
+  }
 
   /**
    * Adjust the font size of the textarea up or down by the specified amount.
    *
    * @param val Number of pixels to adjust font size by (eg: +2, -2).
    */
-  adjustFontSize: (val: number): void => {
-    const newFontSize = app.options.fontSize + val;
+  export function adjustFontSize(val: number): void {
+    const newFontSize = options.fontSize + val;
     if (newFontSize >= 2) {
       textEditor()!.style.fontSize = `${newFontSize}px`;
-      app.options.fontSize = newFontSize;
+      options.fontSize = newFontSize;
     }
     gaEvent('Options', 'Font Size', null, newFontSize);
-  },
+  }
 
   /**
    * Moves focus to the text area, and potentially cursor to position zero.
    */
-  setFocus: (startAtTop?: boolean): void => {
+  export function setFocus(startAtTop?: boolean): void {
     if (startAtTop) {
       textEditor()!.selectionStart = 0;
       textEditor()!.selectionEnd = 0;
       textEditor()!.scrollTo(0, 0);
     }
     textEditor()!.focus();
-  },
+  }
 
   /**
    * Confirms user does not want to save before closing the current doc.
    * @returns True if it's OK to discard.
    */
-  confirmDiscard: (): boolean => {
-    if (!app.file.isModified) {
+  export function confirmDiscard(): boolean {
+    if (!file.isModified) {
       return true;
     }
     const confirmMsg = 'Discard changes? All changes will be lost.';
     return confirm(confirmMsg);
-  },
+  }
 
   /**
    * Updates the UI with the current file name.
    * @param fileHandle Filename to display in header.
    */
-  setFile: (fileHandle: string | FileSystemFileHandle | null = null): void => {
+  export function setFile(fileHandle: string | FileSystemFileHandle | null = null): void {
     if (fileHandle && typeof fileHandle !== "string" && "name" in fileHandle) {
-      app.file.handle = fileHandle;
-      app.file.name = fileHandle.name;
-      document.title = `${fileHandle.name} - ${app.appName}`;
+      file.handle = fileHandle;
+      file.name = fileHandle.name;
+      document.title = `${fileHandle.name} - ${appName}`;
       setHeaderFileName(fileHandle.name);
       setHeaderAppNameHidden(false);
-      app.addRecent(fileHandle);
+      addRecent(fileHandle);
     } else {
-      app.file.handle = null;
-      app.file.name = fileHandle;
-      document.title = app.appName;
-      setHeaderFileName(app.appName);
+      file.handle = null;
+      file.name = fileHandle;
+      document.title = appName;
+      setHeaderFileName(appName);
       setHeaderAppNameHidden(true);
     }
-  },
+  }
 
   /**
    * Updates the UI if the file has been modified.
    * @param val True if the file has been modified.
    */
-  setModified: (val: boolean): void => {
-    if (!app.hasFSAccess) {
+  export function setModified(val: boolean): void {
+    if (!hasFSAccess) {
       return;
     }
-    app.file.isModified = val;
+    file.isModified = val;
     document.body.classList.toggle('modified', val);
     const hidden = !val;
     setModifiedHeaderHidden(hidden);
     setModifiedFooterHidden(hidden);
-  },
-};
+  }
 
 window.addEventListener('load', () => {
   if ('serviceWorker' in navigator && window.isSecureContext && !import.meta.env.DEV) {
@@ -516,28 +514,28 @@ window.addEventListener('keydown', (e) => {
   // Save As
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyS') {
     e.preventDefault();
-    app.saveFileAs();
+    saveFileAs();
     return;
   }
 
   // Save
   if ((e.ctrlKey === true || e.metaKey === true) && e.key === 's') {
     e.preventDefault();
-    app.saveFile();
+    saveFile();
     return;
   }
 
   // Open
   if ((e.ctrlKey === true || e.metaKey === true) && e.key === 'o') {
     e.preventDefault();
-    app.openFile();
+    openFile();
     return;
   }
 
   // Close
   if ((e.ctrlKey === true || e.metaKey === true) && e.key === 'n') {
     e.preventDefault();
-    app.newFile();
+    newFile();
     return;
   }
 
@@ -545,7 +543,7 @@ window.addEventListener('keydown', (e) => {
   if ((e.ctrlKey === true || e.metaKey === true) &&
       (e.key === 'q' || e.key === 'w')) {
     e.preventDefault();
-    app.quitApp();
+    quitApp();
     return;
   }
 
@@ -553,12 +551,12 @@ window.addEventListener('keydown', (e) => {
   if (e.ctrlKey === true && e.shiftKey === true && e.key === 'M') {
     e.preventDefault();
     e.stopPropagation();
-    app.toggleCaptureTabs();
+    toggleCaptureTabs();
   }
 });
 
 /* Show shortcuts on menu items when ALT key is pressed, non-Mac only */
-if (!app.isMac) {
+if (!isMac) {
   window.addEventListener('keydown', (e) => {
     if (e.altKey === true && e.key === 'Alt') {
       document.body.classList.toggle('altKey', true);
@@ -590,7 +588,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   gaEvent('Install', 'available');
 
   // Save the deferred prompt
-  app.installPrompt = e;
+  setInstallPrompt(e);
 
   // Show the install button
   setInstallDisabled(false);
@@ -598,7 +596,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 // Verify the APIs we need are supported, show a polite warning if not.
-if (app.hasFSAccess) {
+if (hasFSAccess) {
   setNotSupportedHidden(true);
   gaEvent('File System APIs', 'FSAccess');
 } else {
@@ -626,7 +624,7 @@ export async function refreshRecents(): Promise<void> {
     const butt = myMenus.createButton(recent.name);
     butt.addEventListener('click', () => {
       myMenus.hide(menuRecent()!);
-      app.openFile(recent);
+      openFile(recent);
     });
     myMenus.addElement(menuRecent()!, butt);
   });
@@ -644,7 +642,7 @@ function addClearButton(myMenus: typeof import("./menus.js").myMenus): void {
     myMenus.clearMenu(menuRecent()!);
     setRecentFiles([]);
     clear();
-    app.setFocus();
+    setFocus();
   });
   myMenus.addElement(menuRecent()!, clearButt);
 }
@@ -654,20 +652,20 @@ refreshRecents();
 
 /* Initialize the textarea, set focus & font size */
 window.addEventListener('DOMContentLoaded', () => {
-  textEditor()!.style.fontSize = `${app.options.fontSize}px`;
+  textEditor()!.style.fontSize = `${options.fontSize}px`;
   /* Should I remove 'autofocus'? Chrome is notifying in the console that it gets overridden
       since an element in the DOM is already focused (I think `setFocus()` already gets called
       on the text editor), since this is now loaded with JSX */
   /* "Autofocus processing was blocked because a document already has a focused element." */
-  // app.setFocus();
+  // setFocus();
 });
 
-// setTimeout(() => { app.setFocus(); console.log("focused"); }, 2000);
+// setTimeout(() => { setFocus(); console.log("focused"); }, 2000);
 
 // Setup the before unload listener to prevent accidental loss on navigation.
 window.addEventListener('beforeunload', (e) => {
   const msg = `There are unsaved changes. Are you sure you want to leave?`;
-  if (app.file.isModified) {
+  if (file.isModified) {
     e.preventDefault();
     e.returnValue = msg;
   }

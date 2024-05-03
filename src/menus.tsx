@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const app = import("./app.js").then(app => app.app);
+const app = import("./app.js");
 
 export const myMenus = {
   /**

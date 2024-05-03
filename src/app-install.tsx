@@ -15,7 +15,7 @@
  */
 
 import { createEffect } from "solid-js";
-import { app, installDisabled, installHidden, setInstallDisabled } from "./app.js";
+import { installDisabled, installHidden, installPrompt, setInstallDisabled } from "./app.js";
 import { myMenus } from "./menus.js";
 import { gaEvent } from "./rum.js";
 
@@ -35,7 +35,7 @@ export default function ButInstall() {
       disabled={installDisabled()}
       onclick={() => {
         setInstallDisabled(true);
-        app.installPrompt!.prompt();
+        installPrompt()!.prompt();
         gaEvent('Install', 'clicked');
       }}
     >
