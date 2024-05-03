@@ -1,7 +1,5 @@
 /* @refresh reload */
 
-import "./analytics.js";
-
 import "./rum.js";
 import "./app.js";
 

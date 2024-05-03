@@ -41,9 +41,6 @@ export function gaEvent(category: string, action: string, label?: string | null,
   if (nonInteraction) {
     obj.nonInteraction = true;
   }
-  if (window.ga) {
-    window.ga('send', 'event', obj);
-  }
 }
 
 /**
@@ -59,8 +56,5 @@ export function gaTiming(category: string, variable: string, value: number, labe
   console.log('⏱️', category, variable, value, label);
   if (location.hostname === 'localhost') {
     return;
-  }
-  if (window.ga) {
-    window.ga('send', 'timing', category, variable, value, label);
   }
 }

@@ -8,15 +8,11 @@
     "url": "https://github.com/GoogleChromeLabs/text-editor.git"
   },
   "homepage": "https://googlechromelabs.github.io/text-editor/",
-  "browserslist": [
-    "last 2 versions"
-  ],
   "dependencies": {
     "idb-keyval": "^3.2.0",
     "solid-js": "^1.8.17"
   },
   "devDependencies": {
-    "@types/google.analytics": "^0.0.46",
     "@types/node": "^20.12.7",
     "@types/wicg-file-system-access": "^2023.10.5",
     "new-javascript": "^0.4.3",
@@ -24,9 +20,6 @@
     "vite": "^5.2.10",
     "vite-plugin-solid": "^2.10.2"
   },
-  "eslintIgnore": [
-    "idb-keyval-iife.js"
-  ],
   "scripts": {
     "build": "tsc && tsc --project ./src/service-worker/tsconfig.json && vite build",
     "dev": "vite",

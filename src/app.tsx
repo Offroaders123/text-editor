@@ -363,11 +363,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const pNow = Math.round(performance.now());
     gaTiming('Start', 'dom-content-loaded', pNow);
   }
-  if (window.ga) {
-    window.ga('send', 'pageview', '/');
-    // eslint-disable-next-line no-console
-    console.log('👀', 'pageview', '/');
-  }
 });
 
 /**

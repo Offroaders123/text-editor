@@ -7,7 +7,6 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "types": [
-      "google.analytics",
       "new-javascript/wicg/file-system-access",
       "new-javascript/wicg/manifest-incubations",
       "vite/client",
