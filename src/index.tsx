@@ -2,8 +2,6 @@
 
 import "./analytics.js";
 
-import "./idb-keyval-iife.js";
-
 import "./rum.js";
 import "./app.js";
 

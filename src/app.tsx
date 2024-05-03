@@ -17,8 +17,8 @@
 
 import { createSignal } from "solid-js";
 import { render } from "solid-js/web";
+import { clear, get, set } from "idb-keyval";
 import { getFileHandle, getNewFileHandle, readFile, verifyPermission, writeFile } from "./fs-helpers.js";
-import { clear, get, set } from "./idb-keyval-iife.js";
 import { gaEvent, gaTiming } from "./rum.js";
 import Header from "./Header.js";
 import TextArea from "./text-area.js";
