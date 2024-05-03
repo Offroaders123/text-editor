@@ -35,7 +35,7 @@ export default function ButInstall() {
       disabled={installDisabled()}
       onclick={() => {
         setInstallDisabled(true);
-        app.installPrompt.prompt();
+        app.installPrompt!.prompt();
         gaEvent('Install', 'clicked');
       }}
     >
